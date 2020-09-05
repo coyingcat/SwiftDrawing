@@ -8,7 +8,7 @@ SwiftDrawing guide
 * DrawLala is originated from [Asana/Drawsana](https://github.com/Asana/Drawsana)
 
 
-#### [iOS 开发简单的手绘应用](https://juejin.im/post/6868898355298107405/)
+#### [博客: iOS 开发简单的手绘应用](https://juejin.im/post/6868898355298107405/)
 
 
 
