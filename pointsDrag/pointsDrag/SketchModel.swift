@@ -19,22 +19,34 @@ struct SketchModel{
     
     
     var lnTopCenter: CGPoint{
-        centerPoint(from: leftTop, to: rightTop)
+        get{
+            centerPoint(from: leftTop, to: rightTop)
+        }
+        
     }
 
   
     var lnLeftCenter: CGPoint{
-        centerPoint(from: leftTop, to: leftBottom)
+        get{
+            centerPoint(from: leftTop, to: leftBottom)
+        }
+        
     }
 
     
     
     var lnBottomCenter: CGPoint{
-        centerPoint(from: leftBottom, to: rightBottom)
+        get{
+            centerPoint(from: leftBottom, to: rightBottom)
+        }
+        
     }
 
     var lnRightCenter: CGPoint{
-        centerPoint(from: rightTop, to: rightBottom)
+        get{
+            centerPoint(from: rightTop, to: rightBottom)
+        }
+        
     }
 
 
