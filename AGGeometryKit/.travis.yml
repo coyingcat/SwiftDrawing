@@ -1,3 +1,0 @@
-language: objective-c
-osx_image: xcode8.2
-script: xcodebuild -project AGGeometryKit.xcodeproj -scheme AGGeometryKit -destination 'platform=iOS Simulator,name=iPad Air' test
