@@ -25,7 +25,7 @@
 
 #import "CATransform3DWithUIImageExample.h"
 #import <AGGeometryKit/AGGeometryKit.h>
-#import "JAValueToString.h"
+
 
 @interface CATransform3DWithUIImageExample ()  <UIGestureRecognizerDelegate>
 

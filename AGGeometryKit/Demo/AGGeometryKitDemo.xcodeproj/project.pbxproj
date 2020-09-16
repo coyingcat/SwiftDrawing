@@ -32,7 +32,6 @@
 		A36D544A1B5E7C740040BDDC /* sample_image6@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A36D543B1B5E7C740040BDDC /* sample_image6@2x.jpg */; };
 		A36D544B1B5E7C740040BDDC /* sample_image7.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A36D543C1B5E7C740040BDDC /* sample_image7.jpg */; };
 		A36D544C1B5E7C740040BDDC /* sample_image7@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A36D543D1B5E7C740040BDDC /* sample_image7@2x.jpg */; };
-		A36D544F1B5E7C8A0040BDDC /* JAValueToString.m in Sources */ = {isa = PBXBuildFile; fileRef = A36D544E1B5E7C8A0040BDDC /* JAValueToString.m */; };
 		B62B9659260D312FEA6FA09F /* Pods_AGGeometryKitDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BC876153423F14CE06091A9 /* Pods_AGGeometryKitDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -88,8 +87,6 @@
 		A36D543B1B5E7C740040BDDC /* sample_image6@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "sample_image6@2x.jpg"; sourceTree = "<group>"; };
 		A36D543C1B5E7C740040BDDC /* sample_image7.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sample_image7.jpg; sourceTree = "<group>"; };
 		A36D543D1B5E7C740040BDDC /* sample_image7@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "sample_image7@2x.jpg"; sourceTree = "<group>"; };
-		A36D544D1B5E7C8A0040BDDC /* JAValueToString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JAValueToString.h; sourceTree = "<group>"; };
-		A36D544E1B5E7C8A0040BDDC /* JAValueToString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JAValueToString.m; sourceTree = "<group>"; };
 		C795351171FA1EBCA0D4E465 /* Pods_AGGeometryKitDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AGGeometryKitDemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -155,8 +152,6 @@
 				A36D54181B5E7C650040BDDC /* Demos */,
 				A36D542B1B5E7C6E0040BDDC /* easing.c */,
 				A36D542C1B5E7C6E0040BDDC /* easing.h */,
-				A36D544D1B5E7C8A0040BDDC /* JAValueToString.h */,
-				A36D544E1B5E7C8A0040BDDC /* JAValueToString.m */,
 				A36D542E1B5E7C740040BDDC /* Resources */,
 				A36D53F91B5E7BAC0040BDDC /* Main.storyboard */,
 				4C77945F1B924B79003290EE /* LaunchScreen.xib */,
@@ -369,7 +364,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A36D53F21B5E7BAC0040BDDC /* AppDelegate.m in Sources */,
-				A36D544F1B5E7C8A0040BDDC /* JAValueToString.m in Sources */,
 				A36D54291B5E7C650040BDDC /* QuadControlsExample.mm in Sources */,
 				A36D54271B5E7C650040BDDC /* QuadAnimationExample.swift in Sources */,
 				A36D53EF1B5E7BAC0040BDDC /* main.m in Sources */,
