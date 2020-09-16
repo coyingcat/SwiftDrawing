@@ -17,6 +17,8 @@ struct SketchModel{
     var rightBottom: CGPoint
     
     
+    let limite: CGFloat = 0.03
+    
     
     var lnTopCenter: CGPoint{
         get{
@@ -25,7 +27,7 @@ struct SketchModel{
         set{
             let topDistance = rightTop.x - leftTop.x
             var lhsV = true, rhsV = true
-            let limite: CGFloat = 0.03
+            
             
             
             let lhsDistance = leftTop.x - leftBottom.x
@@ -81,7 +83,6 @@ struct SketchModel{
         set{
             let lhsDistance = leftTop.y - leftBottom.y
             var topH = true, bottomH = true
-            let limite: CGFloat = 0.03
             
             
             let topDistance = rightTop.y - leftTop.y
