@@ -127,10 +127,8 @@ struct SketchModel{
             centerPoint(from: leftBottom, to: rightBottom)
         }
         set{
-            let topDistance = rightTop.x - leftTop.x
+            let bottomDistance = rightBottom.x - leftBottom.x
             var lhsV = true, rhsV = true
-            
-            
             
             let lhsDistance = leftTop.x - leftBottom.x
             if abs(lhsDistance) < limite{
@@ -141,20 +139,17 @@ struct SketchModel{
                 rhsV = false
             }
             
-            
-            
-            let k = (rightTop.y - leftTop.y)/topDistance
-            
+            let k = (rightBottom.y - leftBottom.y)/bottomDistance
             
             if lhsV{
                 let w = (leftTop.y - leftBottom.y)/lhsDistance
                 let y = (((leftBottom.x - newValue.x) * k + newValue.y) * w - leftBottom.y * k)/(w - k)
-                leftTop.y = y
+                leftBottom.y = y
                 leftTop.x = (y + newValue.x * k - newValue.y)/k
             }
             else{
                 let y = (leftBottom.x - newValue.x) * k + newValue.y
-                leftTop.y = y
+                leftBottom.y = y
             }
             
                 
@@ -177,6 +172,8 @@ struct SketchModel{
         }
     }
 
+    
+    
     var lnRightCenter: CGPoint{
         get{
             centerPoint(from: rightTop, to: rightBottom)
