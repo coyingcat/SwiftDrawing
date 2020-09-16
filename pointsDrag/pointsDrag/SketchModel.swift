@@ -113,7 +113,7 @@ struct SketchModel{
                 leftBottom.y = (x + newValue.y * k - newValue.x)/k
             }
             else{
-                leftBottom.x = (rightTop.y - newValue.y) * k + newValue.x
+                leftBottom.x = (rightBottom.y - newValue.y) * k + newValue.x
             }
             
             
@@ -126,14 +126,99 @@ struct SketchModel{
         get{
             centerPoint(from: leftBottom, to: rightBottom)
         }
-        
+        set{
+            let topDistance = rightTop.x - leftTop.x
+            var lhsV = true, rhsV = true
+            
+            
+            
+            let lhsDistance = leftTop.x - leftBottom.x
+            if abs(lhsDistance) < limite{
+                lhsV = false
+            }
+            let rhsDistance = rightTop.x - rightBottom.x
+            if abs(rhsDistance) < limite{
+                rhsV = false
+            }
+            
+            
+            
+            let k = (rightTop.y - leftTop.y)/topDistance
+            
+            
+            if lhsV{
+                let w = (leftTop.y - leftBottom.y)/lhsDistance
+                let y = (((leftBottom.x - newValue.x) * k + newValue.y) * w - leftBottom.y * k)/(w - k)
+                leftTop.y = y
+                leftTop.x = (y + newValue.x * k - newValue.y)/k
+            }
+            else{
+                let y = (leftBottom.x - newValue.x) * k + newValue.y
+                leftTop.y = y
+            }
+            
+                
+            
+            
+            
+            
+            if rhsV{
+                let rhs = (rightTop.y - rightBottom.y)/rhsDistance
+                let rhsY = (k * rightTop.y + ((newValue.x - rightTop.x)*k - newValue.y) * rhs)/(k - rhs)
+                rightTop.y = rhsY
+                rightTop.x = (rhsY + newValue.x * k - newValue.x)/k
+            }
+            else{
+                let rhsY = newValue.y - (newValue.x - rightTop.x)*k
+                rightTop.y = rhsY
+            }
+            
+            
+        }
     }
 
     var lnRightCenter: CGPoint{
         get{
             centerPoint(from: rightTop, to: rightBottom)
         }
-        
+        set{
+            let lhsDistance = leftTop.y - leftBottom.y
+            var topH = true, bottomH = true
+            
+            
+            let topDistance = rightTop.y - leftTop.y
+            if abs(topDistance) < limite{
+                topH = false
+            }
+            let bottomDistance = rightBottom.y - leftBottom.y
+            if abs(bottomDistance) < limite{
+                bottomH = false
+            }
+
+            let k = (leftTop.x - leftBottom.x)/lhsDistance
+                        
+            if topH{
+                let ths = (rightTop.x - leftTop.x)/topDistance
+                let x = (((rightTop.y - newValue.y) * ths - rightTop.x)*k + newValue.x * ths)/(ths - k)
+                leftTop.x = x
+                leftTop.y = (x + newValue.y * k - newValue.x)/k
+            }
+            else{
+                leftTop.x = (rightTop.y - newValue.y) * k + newValue.x
+            }
+            
+            if bottomH{
+                let bhs = (rightBottom.x - leftBottom.x)/bottomDistance
+                let x = (((rightBottom.y - newValue.y) * bhs - rightBottom.x)*k + newValue.x * bhs)/(bhs - k)
+                leftBottom.x = x
+                leftBottom.y = (x + newValue.y * k - newValue.x)/k
+            }
+            else{
+                leftBottom.x = (rightBottom.y - newValue.y) * k + newValue.x
+            }
+            
+            
+        }
     }
 
 

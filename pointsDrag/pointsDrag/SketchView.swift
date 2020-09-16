@@ -201,9 +201,9 @@ class SketchView: UIView {
             case .centerLnLeft:
                 defaultPoints.lnLeftCenter = pt
             case .centerLnRight:
-                ()
+                defaultPoints.lnRightCenter = pt
             case .centerLnBottom:
-                ()
+                defaultPoints.lnBottomCenter = pt
             }
             reloadData()
         }
