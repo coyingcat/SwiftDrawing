@@ -24,23 +24,22 @@ struct SketchModel{
         }
         set{
             let topDistance = rightTop.x - leftTop.x
-            var topH = true, lhsV = true, rhsV = true
+            var lhsV = true, rhsV = true
             let limite: CGFloat = 0.03
-            if abs(topDistance) < limite{
-                topH = false
-            }
+            
+            
             let lhsDistance = leftTop.x - leftBottom.x
             if abs(lhsDistance) < limite{
                 lhsV = false
             }
             let rhsDistance = rightTop.x - rightBottom.x
-            if abs(lhsDistance) < limite{
+            if abs(rhsDistance) < limite{
                 rhsV = false
             }
             
             
             
-            let k = (rightTop.y - leftTop.y)/(rightTop.x - leftTop.x)
+            let k = (rightTop.y - leftTop.y)/topDistance
             
             
             if lhsV{
@@ -79,7 +78,53 @@ struct SketchModel{
         get{
             centerPoint(from: leftTop, to: leftBottom)
         }
-        
+        set{
+            let lhsDistance = leftTop.x - leftBottom.x
+            var topH = true, bottomH = true
+            let limite: CGFloat = 0.03
+            
+            
+            let topDistance = rightTop.x - leftTop.x
+            if abs(topDistance) < limite{
+                topH = false
+            }
+            let botttomDistance = rightBottom.x - leftBottom.x
+            if abs(botttomDistance) < limite{
+                bottomH = false
+            }
+            
+            
+            
+            let k = (leftTop.y - leftBottom.y)/lhsDistance
+            
+            
+            if topH{
+                let lhs = (leftTop.y - leftBottom.y)/topDistance
+                let y = (((leftBottom.x - newValue.x) * k + newValue.y) * w - leftBottom.y * k)/(w - k)
+                leftTop.y = y
+                leftTop.x = (y + newValue.x * k - newValue.y)/k
+            }
+            else{
+                leftTop.y = (leftBottom.x - newValue.x) * k + newValue.y
+            }
+            
+                
+            
+            
+            
+            
+            if bottomH{
+                let rhs = (rightTop.y - rightBottom.y)/botttomDistance
+                let rhsY = (k * rightTop.y + ((newValue.x - rightTop.x)*k - newValue.y) * rhs)/(k - rhs)
+                leftBottom.y = rhsY
+                leftBottom.x = (rhsY + newValue.x * k - newValue.x)/k
+            }
+            else{
+                leftBottom.y = newValue.y - (newValue.x - rightTop.x)*k
+            }
+            
+            
+        }
     }
 
     
