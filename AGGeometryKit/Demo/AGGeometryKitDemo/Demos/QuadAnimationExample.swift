@@ -13,7 +13,9 @@ import AGGeometryKit
 class QuadAnimationExample: UIViewController {
     
     @IBOutlet var imageView:UIImageView?
-    var originalQuad:AGKQuad = AGKQuadZero
+    
+    
+    var originalQuad = AGKQuadZero
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

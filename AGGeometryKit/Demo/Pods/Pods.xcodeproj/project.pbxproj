@@ -211,14 +211,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		2347BBFDECA5EFCA619152A57DB806BD /* CALayerProperties */ = {
-			isa = PBXGroup;
-			children = (
-				A3E08CFF5ED74332CEC08786A0C958BD /* AGGeometryKit */,
-			);
-			name = CALayerProperties;
-			sourceTree = "<group>";
-		};
 		23BACA4C1CE9482BB053D03DF09054AD /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -271,14 +263,6 @@
 			path = "Target Support Files/Pods-AGGeometryKitDemoTests";
 			sourceTree = "<group>";
 		};
-		4EA01D272C481C9440135ECDB65960EA /* UIViewProperties */ = {
-			isa = PBXGroup;
-			children = (
-				819BF03CAF4C64353C952D3126D5A881 /* AGGeometryKit */,
-			);
-			name = UIViewProperties;
-			sourceTree = "<group>";
-		};
 		4EF36B0D6108300798FDA67554101C38 /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -292,9 +276,7 @@
 			isa = PBXGroup;
 			children = (
 				E39D1B7ACCF84014D56215997E199EA2 /* AGGeometryKit */,
-				2347BBFDECA5EFCA619152A57DB806BD /* CALayerProperties */,
 				D857F55D8DB84AE0DE0A67BF73EC97C2 /* Support Files */,
-				4EA01D272C481C9440135ECDB65960EA /* UIViewProperties */,
 			);
 			name = AGGeometryKit;
 			path = ../..;
@@ -311,22 +293,6 @@
 			);
 			sourceTree = "<group>";
 		};
-		819BF03CAF4C64353C952D3126D5A881 /* AGGeometryKit */ = {
-			isa = PBXGroup;
-			children = (
-				CC291E4C72A06FEC2BA3AF5466440A70 /* Categories */,
-			);
-			path = AGGeometryKit;
-			sourceTree = "<group>";
-		};
-		A3E08CFF5ED74332CEC08786A0C958BD /* AGGeometryKit */ = {
-			isa = PBXGroup;
-			children = (
-				B50B677A4A401765B0A61828239E832E /* Categories */,
-			);
-			path = AGGeometryKit;
-			sourceTree = "<group>";
-		};
 		A76F2FCC66BAC279C160E9A1489ABD78 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -339,13 +305,6 @@
 				56D7E3E82EB6F6F46DB1156F5F5FCB47 /* AGKTransformPixelMapper.m */,
 			);
 			path = Classes;
-			sourceTree = "<group>";
-		};
-		B50B677A4A401765B0A61828239E832E /* Categories */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Categories;
 			sourceTree = "<group>";
 		};
 		B81F6EC8A98CD1B7187EE0F3D0F099A8 /* Development Pods */ = {
@@ -395,13 +354,6 @@
 			);
 			name = "Pods-AGGeometryKitDemo";
 			path = "Target Support Files/Pods-AGGeometryKitDemo";
-			sourceTree = "<group>";
-		};
-		CC291E4C72A06FEC2BA3AF5466440A70 /* Categories */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Categories;
 			sourceTree = "<group>";
 		};
 		D857F55D8DB84AE0DE0A67BF73EC97C2 /* Support Files */ = {
