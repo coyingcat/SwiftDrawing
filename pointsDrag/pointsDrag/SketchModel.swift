@@ -16,6 +16,38 @@ struct SketchModel{
     var leftBottom: CGPoint
     var rightBottom: CGPoint
     
+    
+    
+    var lnTopCenter: CGPoint{
+        centerPoint(from: leftTop, to: rightTop)
+    }
+
+  
+    var lnLeftCenter: CGPoint{
+        centerPoint(from: leftTop, to: leftBottom)
+    }
+
+    
+    
+    var lnBottomCenter: CGPoint{
+        centerPoint(from: leftBottom, to: rightBottom)
+    }
+
+    var lnRightCenter: CGPoint{
+        centerPoint(from: rightTop, to: rightBottom)
+    }
+
+
+    
+    
+    private
+    func centerPoint(from fromPoint: CGPoint, to toPoint: CGPoint) -> CGPoint{
+        return CGPoint(x: (fromPoint.x + toPoint.x)/2, y: (fromPoint.y + toPoint.y)/2)
+    }
+    
+    
+    
+    
     init() {
         leftTop = CGPoint(x: 10, y: 10)
         

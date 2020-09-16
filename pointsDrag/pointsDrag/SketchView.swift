@@ -29,8 +29,8 @@ class SketchView: UIView {
     
     var pointsLayer: CAShapeLayer = {
         let l = CAShapeLayer()
-        l.fillColor = UIColor.clear.cgColor
-        l.strokeColor = UIColor.green.cgColor
+        l.fillColor = UIColor.white.cgColor
+        l.strokeColor = UIColor.red.cgColor
         return l
     }()
     
@@ -115,6 +115,7 @@ class SketchView: UIView {
         linePath.addLine(to: sketch.rightBottom)
         linePath.addLine(to: sketch.leftBottom)
         linePath.close()
+        
     }
     
     
@@ -125,14 +126,25 @@ class SketchView: UIView {
      */
     func drawPoints(with sketch: SketchModel){
         let radius: CGFloat = 8
-        pointPath.move(to: sketch.leftTop)
+        pointPath.move(to: sketch.leftTop.advance(radius))
         pointPath.addArc(withCenter: sketch.leftTop, radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
-        pointPath.move(to: sketch.rightTop)
+        pointPath.move(to: sketch.rightTop.advance(radius))
         pointPath.addArc(withCenter: sketch.rightTop, radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
-        pointPath.move(to: sketch.rightBottom)
+        pointPath.move(to: sketch.rightBottom.advance(radius))
         pointPath.addArc(withCenter: sketch.rightBottom, radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
-        pointPath.move(to: sketch.leftBottom)
+        pointPath.move(to: sketch.leftBottom.advance(radius))
         pointPath.addArc(withCenter: sketch.leftBottom, radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
+        
+        ///
+        
+        pointPath.move(to: sketch.lnTopCenter.advance(radius))
+        pointPath.addArc(withCenter: sketch.lnTopCenter, radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
+        pointPath.move(to: sketch.lnLeftCenter.advance(radius))
+        pointPath.addArc(withCenter: sketch.lnLeftCenter, radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
+        pointPath.move(to: sketch.lnRightCenter.advance(radius))
+        pointPath.addArc(withCenter: sketch.lnRightCenter, radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
+        pointPath.move(to: sketch.lnBottomCenter.advance(radius))
+        pointPath.addArc(withCenter: sketch.lnBottomCenter, radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
     }
     
     
@@ -153,11 +165,9 @@ class SketchView: UIView {
         let points = [defaultPoints.leftTop, defaultPoints.rightTop, defaultPoints.rightBottom, defaultPoints.leftBottom]
         for pt in points{
             let distance = sqrt(pow(pt.x - currentPoint.x, 2) + pow(pt.y - currentPoint.y, 2))
-            if distance <= maxDistance{
-                if let pointIndex = points.firstIndex(of: pt){
-                    currentControlPointType = SketchPointOption(rawValue: pointIndex)
-                    break
-                }
+            if distance <= maxDistance, let pointIndex = points.firstIndex(of: pt){
+                currentControlPointType = SketchPointOption(rawValue: pointIndex)
+                break
             }
         }
     }
@@ -198,4 +208,15 @@ class SketchView: UIView {
         super.touchesCancelled(touches, with: event)
         currentControlPointType = nil
     }
+}
+
+
+
+extension CGPoint{
+
+    func advance(_ offsetX: CGFloat = 0, y offsetY: CGFloat = 0) -> CGPoint{
+        return CGPoint(x: x+offsetX, y: y+offsetY)
+    }
+
+
 }
