@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import Darwin
 
-let π:CGFloat = CGFloat(M_PI)
+let π = CGFloat.pi
 
 class AngleConverterExample: UIViewController {
     

@@ -53,8 +53,8 @@ class QuadAnimationExample: UIViewController {
     
     fileprivate func animateToQuad(_ quad: AGKQuad) {
         
-        NSLog("Animating from: \(NSStringFromAGKQuad(imageView!.layer.quadrilateral))")
-        NSLog("Animating to: \(NSStringFromAGKQuad(quad))")
+        print("Animating from: \(String(describing: NSStringFromAGKQuad(imageView!.layer.quadrilateral)))")
+        print("Animating to: \(String(describing: NSStringFromAGKQuad(quad)))")
         
         let duration:TimeInterval = 2.0
         
