@@ -22,7 +22,21 @@ struct SketchModel{
         get{
             centerPoint(from: leftTop, to: rightTop)
         }
-        
+        set{
+            let k = (rightTop.y - leftTop.y)/(rightTop.x - leftTop.x)
+            let w = (leftTop.y - leftBottom.y)/(leftTop.x - leftBottom.x)
+            let y = (((leftBottom.x - newValue.x) * k + newValue.y) * w - leftBottom.y * k)/(w - k)
+            leftTop.y = y
+            leftTop.x = (y + newValue.x * k - newValue.y)/k
+                
+                
+            let rhs = (rightTop.y - rightBottom.y)/(rightTop.x - rightBottom.x)
+            let rhsY = (k * rightTop.y + ((newValue.x - rightTop.x)*k - newValue.x) * rhs)/(k - rhs)
+            rightTop.y = rhsY
+            rightTop.x = (rhsY + newValue.x * k - newValue.x)/k
+            
+            
+        }
     }
 
   
