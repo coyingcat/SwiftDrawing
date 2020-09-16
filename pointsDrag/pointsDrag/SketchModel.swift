@@ -23,17 +23,52 @@ struct SketchModel{
             centerPoint(from: leftTop, to: rightTop)
         }
         set{
+            let topDistance = rightTop.x - leftTop.x
+            var topH = true, lhsV = true, rhsV = true
+            let limite: CGFloat = 0.03
+            if abs(topDistance) < limite{
+                topH = false
+            }
+            let lhsDistance = leftTop.x - leftBottom.x
+            if abs(lhsDistance) < limite{
+                lhsV = false
+            }
+            let rhsDistance = rightTop.x - rightBottom.x
+            if abs(lhsDistance) < limite{
+                rhsV = false
+            }
+            
+            
+            
             let k = (rightTop.y - leftTop.y)/(rightTop.x - leftTop.x)
-            let w = (leftTop.y - leftBottom.y)/(leftTop.x - leftBottom.x)
-            let y = (((leftBottom.x - newValue.x) * k + newValue.y) * w - leftBottom.y * k)/(w - k)
-            leftTop.y = y
-            leftTop.x = (y + newValue.x * k - newValue.y)/k
+            
+            
+            if lhsV{
+                let w = (leftTop.y - leftBottom.y)/lhsDistance
+                let y = (((leftBottom.x - newValue.x) * k + newValue.y) * w - leftBottom.y * k)/(w - k)
+                leftTop.y = y
+                leftTop.x = (y + newValue.x * k - newValue.y)/k
+            }
+            else{
+                let y = (leftBottom.x - newValue.x) * k + newValue.y
+                leftTop.y = y
+            }
+            
                 
-                
-            let rhs = (rightTop.y - rightBottom.y)/(rightTop.x - rightBottom.x)
-            let rhsY = (k * rightTop.y + ((newValue.x - rightTop.x)*k - newValue.x) * rhs)/(k - rhs)
-            rightTop.y = rhsY
-            rightTop.x = (rhsY + newValue.x * k - newValue.x)/k
+            
+            
+            
+            
+            if rhsV{
+                let rhs = (rightTop.y - rightBottom.y)/rhsDistance
+                let rhsY = (k * rightTop.y + ((newValue.x - rightTop.x)*k - newValue.y) * rhs)/(k - rhs)
+                rightTop.y = rhsY
+                rightTop.x = (rhsY + newValue.x * k - newValue.x)/k
+            }
+            else{
+                let rhsY = newValue.y - (newValue.x - rightTop.x)*k
+                rightTop.y = rhsY
+            }
             
             
         }
