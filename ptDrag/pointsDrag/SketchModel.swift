@@ -57,35 +57,47 @@ struct SketchModel{
     }
     
 
-    
+    mutating
     func sortPointClockwise(){
-        var pt: CGPoint?
+         // 按左上，右上，右下，左下排序
+        var result = [CGPoint](repeating: CGPoint.zero, count: 4)
         var minDistance: CGFloat = -1
         for p in pts{
             let distance = p.x * p.x + p.y * p.y
             if minDistance == -1 || distance < minDistance{
-                pt = p
+                result[0] = p
                 minDistance = distance
             }
         }
+        var leftPts = pts.filter { (pp) -> Bool in
+            pp != result[0]
+        }
+        if leftPts[1].pointSideLine(left: result[0], right: leftPts[0]) * leftPts[2].pointSideLine(left: result[0], right: leftPts[0]) < 0{
+            result[2] = leftPts[0]
+        }
+        else if leftPts[0].pointSideLine(left: result[0], right: leftPts[1]) * leftPts[2].pointSideLine(left: result[0], right: leftPts[1]) < 0{
+            result[2] = leftPts[1]
+        }
+        else if leftPts[0].pointSideLine(left: result[0], right: leftPts[2]) * leftPts[1].pointSideLine(left: result[0], right: leftPts[2]) < 0{
+            result[2] = leftPts[2]
+        }
+        leftPts = pts.filter { (pt) -> Bool in
+            pt != result[0] && pt != result[2]
+        }
+        if leftPts[0].pointSideLine(left: result[0], right: result[2]) > 0{
+            result[1] = leftPts[0]
+            result[3] = leftPts[1]
+        }
+        else{
+            result[1] = leftPts[1]
+            result[3] = leftPts[0]
+        }
         
+        leftTop = result[0]
+        rightTop = result[1]
         
-       
-             Point &leftTop = result[0];
-             points.erase(std::remove(points.begin(), points.end(), leftTop));
-             if ((pointSideLine(leftTop, points[0], points[1]) * pointSideLine(leftTop, points[0], points[2])) < 0) {
-                 result[2] = points[0];
-             } else if ((pointSideLine(leftTop, points[1], points[0]) * pointSideLine(leftTop, points[1], points[2])) < 0) {
-                 result[2] = points[1];
-             } else if ((pointSideLine(leftTop, points[2], points[0]) * pointSideLine(leftTop, points[2], points[1])) < 0) {
-                 result[2] = points[2];
-             }
-         
-        
-        
-        
-        
-        
+        rightBottom = result[2]
+        leftBottom = result[3]
     }
   
 }
