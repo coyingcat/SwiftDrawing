@@ -65,7 +65,9 @@ class SketchView: UIView {
     
     var ggTouch = false
 
-
+    var lastPoint: CGPoint?
+    
+    
     override init(frame: CGRect) {
         super.init(frame: .zero)
         
@@ -162,7 +164,7 @@ class SketchView: UIView {
         super.touchesBegan(touches, with: event)
 
         ggTouch = false
-
+        lastPoint = nil
         guard let touch = touches.first else{
             return
         }
@@ -235,9 +237,22 @@ class SketchView: UIView {
                 
                 return
             }
-            
-            
             prepare(point: current)
+            
+            guard defaultPoints.gimpTransformPolygonIsConvex else{
+                if let last = lastPoint{
+                    prepare(point: last)
+                    
+                    reloadData()
+                }
+                
+                return
+            }
+            
+            
+            
+            
+            lastPoint = current
          
             reloadData()
         }
@@ -267,6 +282,7 @@ class SketchView: UIView {
         super.touchesEnded(touches, with: event)
         currentControlPointType = nil
         ggTouch = false
+        lastPoint = nil
 
     }
     
@@ -275,7 +291,7 @@ class SketchView: UIView {
         super.touchesCancelled(touches, with: event)
         currentControlPointType = nil
         ggTouch = false
- 
+        lastPoint = nil
     }
 }
 
