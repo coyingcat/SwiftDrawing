@@ -11,8 +11,7 @@ import UIKit
 
 enum SketchPointOption: Int{
     case leftTop = 0, rightTop = 1, leftBottom = 2
-    case rightBottom = 3, centerLnTop = 4, centerLnLeft = 5
-    case centerLnRight = 6, centerLnBottom = 7
+    case rightBottom = 3
     
     
 }
@@ -25,8 +24,7 @@ class SketchView: UIView {
         didSet{
             if let type = currentControlPointType{
                 var pts = [defaultPoints.leftTop, defaultPoints.rightTop, defaultPoints.leftBottom,
-                           defaultPoints.rightBottom, defaultPoints.lnTopCenter, defaultPoints.lnLeftCenter,
-                           defaultPoints.lnRightCenter, defaultPoints.lnBottomCenter]
+                           defaultPoints.rightBottom]
                 pts.remove(at: type.rawValue)
                 defaultPoints.restPoints = pts
             }
@@ -155,15 +153,7 @@ class SketchView: UIView {
         pointPath.addArc(withCenter: sketch.leftBottom, radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
         
         ///
-        
-        pointPath.move(to: sketch.lnTopCenter.advance(radius))
-        pointPath.addArc(withCenter: sketch.lnTopCenter, radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
-        pointPath.move(to: sketch.lnLeftCenter.advance(radius))
-        pointPath.addArc(withCenter: sketch.lnLeftCenter, radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
-        pointPath.move(to: sketch.lnRightCenter.advance(radius))
-        pointPath.addArc(withCenter: sketch.lnRightCenter, radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
-        pointPath.move(to: sketch.lnBottomCenter.advance(radius))
-        pointPath.addArc(withCenter: sketch.lnBottomCenter, radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
+     
     }
     
     
@@ -185,8 +175,7 @@ class SketchView: UIView {
         // 判定选中的最大距离
         let maxDistance: CGFloat = 20
         let points = [defaultPoints.leftTop, defaultPoints.rightTop, defaultPoints.leftBottom,
-                      defaultPoints.rightBottom, defaultPoints.lnTopCenter, defaultPoints.lnLeftCenter,
-                      defaultPoints.lnRightCenter, defaultPoints.lnBottomCenter]
+                      defaultPoints.rightBottom]
         for pt in points{
             let distance = abs(pt.x - currentPoint.x) + abs(pt.y - currentPoint.y)
             if distance <= maxDistance, let pointIndex = points.firstIndex(of: pt){
@@ -232,14 +221,6 @@ class SketchView: UIView {
                 defaultPoints.leftBottom = current
             case .rightBottom:
                 defaultPoints.rightBottom = current
-            case .centerLnTop:
-                defaultPoints.lnTopCenter = current
-            case .centerLnLeft:
-                defaultPoints.lnLeftCenter = current
-            case .centerLnRight:
-                defaultPoints.lnRightCenter = current
-            case .centerLnBottom:
-                defaultPoints.lnBottomCenter = current
             }
             if defaultPoints.gimpTransformPolygonIsConvex == false{
                 ggFourSide = true
@@ -255,14 +236,6 @@ class SketchView: UIView {
                         defaultPoints.leftBottom = last
                     case .rightBottom:
                         defaultPoints.rightBottom = last
-                    case .centerLnTop:
-                        defaultPoints.lnTopCenter = last
-                    case .centerLnLeft:
-                        defaultPoints.lnLeftCenter = last
-                    case .centerLnRight:
-                        defaultPoints.lnRightCenter = last
-                    case .centerLnBottom:
-                        defaultPoints.lnBottomCenter = last
                     }
                     
                     reloadData()
@@ -280,7 +253,6 @@ class SketchView: UIView {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         currentControlPointType = nil
-        defaultPoints.doingParallel = false
         ggTouch = false
         ggFourSide = false
     }
@@ -289,7 +261,6 @@ class SketchView: UIView {
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
         currentControlPointType = nil
-        defaultPoints.doingParallel = false
         ggTouch = false
         ggFourSide = false
     }
