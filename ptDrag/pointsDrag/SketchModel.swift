@@ -28,20 +28,7 @@ struct SketchModel{
     }
     
   
-    var gimpTransformPolygonIsConvex: Bool{
-        
-        let x1 = leftTop.x, y1 = leftTop.y
-        let x2 = rightTop.x, y2 = rightTop.y
-        let x3 = leftBottom.x, y3 = leftBottom.y
-        let x4 = rightBottom.x, y4 = rightBottom.y
-     
-        let z1 = ((x2 - x1) * (y4 - y1) - (x4 - x1) * (y2 - y1))
-        let z2 = ((x4 - x1) * (y3 - y1) - (x3 - x1) * (y4 - y1))
-        let z3 = ((x4 - x2) * (y3 - y2) - (x3 - x2) * (y4 - y2))
-        let z4 = ((x3 - x2) * (y1 - y2) - (x1 - x2) * (y3 - y2))
-     
-        return (z1 * z2 > 0) && (z3 * z4 > 0)
-    }
+    
     
     
     
@@ -58,7 +45,7 @@ struct SketchModel{
     
 
     mutating
-    func sortPointClockwise(){
+    func sortPointClockwise() -> Bool{
          // 按左上，右上，右下，左下排序
         var result = [CGPoint](repeating: CGPoint.zero, count: 4)
         var minDistance: CGFloat = -1
@@ -93,16 +80,23 @@ struct SketchModel{
             result[3] = leftPts[0]
         }
         
-        leftTop = result[0]
-        rightTop = result[1]
+
         
-        rightBottom = result[2]
-        leftBottom = result[3]
+        if result[0].gimpTransformPolygon(isConvex: result[1], two: result[3], three: result[2]){
+            leftTop = result[0]
+            rightTop = result[1]
+            
+            rightBottom = result[2]
+            leftBottom = result[3]
+            return true
+        }
+        else{
+            return false
+        }
+        
     }
   
 }
-
-
 
 
 
@@ -117,7 +111,19 @@ extension CGPoint{
     }
     
     
-    
+    func gimpTransformPolygon(isConvex firstPt: CGPoint, two twicePt: CGPoint, three thirdPt: CGPoint) -> Bool{
+        
+        let x2 = firstPt.x, y2 = firstPt.y
+        let x3 = twicePt.x, y3 = twicePt.y
+        let x4 = thirdPt.x, y4 = thirdPt.y
+     
+        let z1 = ((x2 - x) * (y4 - y) - (x4 - x) * (y2 - y))
+        let z2 = ((x4 - x) * (y3 - y) - (x3 - x) * (y4 - y))
+        let z3 = ((x4 - x2) * (y3 - y2) - (x3 - x2) * (y4 - y2))
+        let z4 = ((x3 - x2) * (y - y2) - (x - x2) * (y3 - y2))
+     
+        return (z1 * z2 > 0) && (z3 * z4 > 0)
+    }
     
     
 }

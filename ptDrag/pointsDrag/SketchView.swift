@@ -272,8 +272,7 @@ class SketchView: UIView{
     
     
     func forTheFinal(){
-        defaultPoints.sortPointClockwise()
-        if defaultPoints.gimpTransformPolygonIsConvex{
+        if defaultPoints.sortPointClockwise(){
             lineLayer.strokeColor = SketchColor.normal
             pointsLayer.strokeColor = SketchColor.normal
         }
@@ -281,7 +280,6 @@ class SketchView: UIView{
             lineLayer.strokeColor = SketchColor.disable
             pointsLayer.strokeColor = SketchColor.disable
         }
-        
         reloadData()
         currentControlPointType = nil
         ggTouch = false
