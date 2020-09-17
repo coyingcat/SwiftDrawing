@@ -182,7 +182,7 @@ class SketchView: UIView {
                       defaultPoints.rightBottom, defaultPoints.lnTopCenter, defaultPoints.lnLeftCenter,
                       defaultPoints.lnRightCenter, defaultPoints.lnBottomCenter]
         for pt in points{
-            let distance = sqrt(pow(pt.x - currentPoint.x, 2) + pow(pt.y - currentPoint.y, 2))
+            let distance = abs(pt.x - currentPoint.x) + abs(pt.y - currentPoint.y)
             if distance <= maxDistance, let pointIndex = points.firstIndex(of: pt){
                 currentControlPointType = SketchPointOption(rawValue: pointIndex)
                 break
@@ -203,8 +203,8 @@ class SketchView: UIView {
             var miniCheck = true
             
             for pt in defaultPoints.restPoints{
-                let distance = sqrt(pow(pt.x - current.x, 2) + pow(pt.y - current.y, 2))
-                if distance < 30{
+                let distance = abs(pt.x - current.x) + abs(pt.y - current.y)
+                if distance < 40{
                     miniCheck = false
                     break
                 }
