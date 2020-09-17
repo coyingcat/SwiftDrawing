@@ -22,6 +22,11 @@ struct SketchModel{
     var restPoints = [CGPoint]()
     
     
+    
+    var pts: [CGPoint]{
+        [leftTop, rightTop, leftBottom, rightBottom]
+    }
+    
   
     var gimpTransformPolygonIsConvex: Bool{
         
@@ -52,6 +57,36 @@ struct SketchModel{
     }
     
 
+    
+    func sortPointClockwise(){
+        var pt: CGPoint?
+        var minDistance: CGFloat = -1
+        for p in pts{
+            let distance = p.x * p.x + p.y * p.y
+            if minDistance == -1 || distance < minDistance{
+                pt = p
+                minDistance = distance
+            }
+        }
+        
+        
+       
+             Point &leftTop = result[0];
+             points.erase(std::remove(points.begin(), points.end(), leftTop));
+             if ((pointSideLine(leftTop, points[0], points[1]) * pointSideLine(leftTop, points[0], points[2])) < 0) {
+                 result[2] = points[0];
+             } else if ((pointSideLine(leftTop, points[1], points[0]) * pointSideLine(leftTop, points[1], points[2])) < 0) {
+                 result[2] = points[1];
+             } else if ((pointSideLine(leftTop, points[2], points[0]) * pointSideLine(leftTop, points[2], points[1])) < 0) {
+                 result[2] = points[2];
+             }
+         
+        
+        
+        
+        
+        
+    }
   
 }
 
@@ -68,6 +103,9 @@ extension CGPoint{
         return (x - lhs.x) * (rhs.y - lhs.y) - (y - lhs.y) * (rhs.x - lhs.x)
         
     }
+    
+    
+    
     
     
 }
