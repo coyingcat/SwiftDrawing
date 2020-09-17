@@ -172,14 +172,14 @@ struct SketchModel{
         }
     }
 
-    
+
     
     var lnRightCenter: CGPoint{
         get{
             centerPoint(from: rightTop, to: rightBottom)
         }
         set{
-            let lhsDistance = leftTop.y - leftBottom.y
+            let rhsDistance = rightTop.y - rightBottom.y
             var topH = true, bottomH = true
             
             
@@ -192,26 +192,26 @@ struct SketchModel{
                 bottomH = false
             }
 
-            let k = (leftTop.x - leftBottom.x)/lhsDistance
-                        
+            let k = (rightTop.x - rightBottom.x)/rhsDistance
+                 
             if topH{
                 let ths = (rightTop.x - leftTop.x)/topDistance
-                let x = (((rightTop.y - newValue.y) * ths - rightTop.x)*k + newValue.x * ths)/(ths - k)
-                leftTop.x = x
-                leftTop.y = (x + newValue.y * k - newValue.x)/k
+                let x = (((leftTop.y - newValue.y) * ths - leftTop.x)*k + newValue.x * ths)/(ths - k)
+                rightTop.x = x
+                rightTop.y = (x + newValue.y * k - newValue.x)/k
             }
             else{
-                leftTop.x = (rightTop.y - newValue.y) * k + newValue.x
+                rightTop.x = (leftTop.y - newValue.y) * k + newValue.x
             }
             
             if bottomH{
                 let bhs = (rightBottom.x - leftBottom.x)/bottomDistance
                 let x = (((rightBottom.y - newValue.y) * bhs - rightBottom.x)*k + newValue.x * bhs)/(bhs - k)
-                leftBottom.x = x
-                leftBottom.y = (x + newValue.y * k - newValue.x)/k
+                rightBottom.x = x
+                rightBottom.y = (x + newValue.y * k - newValue.x)/k
             }
             else{
-                leftBottom.x = (rightBottom.y - newValue.y) * k + newValue.x
+                rightBottom.x = (rightBottom.y - newValue.y) * k + newValue.x
             }
             
             
