@@ -89,15 +89,35 @@ struct SketchModel{
             
             let k = (rhsTop.y - lhsTop.y)/topDistance
             
+            //  (a-y)/w-(c-y)/k=b-d
+            
+            // 求解 y
+            
+            //  -(((d-b)*k-c)*w+a*k)/(w-k)
+            
+            //  (((b - d)*k + c)*w - a*k)/(w - k)
+            
+            //  (((d-b)*k-c)*w+a*k)/(k - w)
+            
+            ////
+            
+            ///
+            
+            //  (a-y)/w=b-x
+            
+            //  求解 x
+            
+            //  x = (y+b*w-a)/w
+            
             
             if lhsV{
                 let w = (lhsTop.y - lhsBottom.y)/lhsDistance
-                let y = (((lhsBottom.x - newValue.x) * k + newValue.y) * w - lhsBottom.y * k)/(w - k)
+                let y = (((lhsTop.x - newValue.x) * k + newValue.y) * w - lhsTop.y * k)/(w - k)
                 leftTop.y = y
-                leftTop.x = (y + newValue.x * k - newValue.y)/k
+                leftTop.x = (y + newValue.x * w - newValue.y)/w
             }
             else{
-                let y = (lhsBottom.x - newValue.x) * k + newValue.y
+                let y = (lhsTop.x - newValue.x) * k + newValue.y
                 leftTop.y = y
             }
             
