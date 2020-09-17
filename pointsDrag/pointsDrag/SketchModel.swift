@@ -9,7 +9,7 @@
 import UIKit
 
 
-
+// 沿着固定的轨道
 struct StateKeep {
     var lhsTop: CGPoint?
     var rhsTop: CGPoint?
