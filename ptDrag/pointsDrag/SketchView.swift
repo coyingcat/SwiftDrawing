@@ -223,8 +223,9 @@ class SketchView: UIView {
                         break
                     }
                     else{
-                        let offset = (rhs.y - lhs.y)/oneDistance - (current.y - lhs.y)/twoDistance
-                        if abs(offset) < 0.25{
+                        let oneArcTan = atan((rhs.y - lhs.y)/oneDistance) * 180 / CGFloat.pi
+                        let twoArcTan = atan((current.y - lhs.y)/twoDistance) * 180 / CGFloat.pi
+                        if abs(oneArcTan - twoArcTan) < 20{
                             ggTouch = true
                             break
                         }
