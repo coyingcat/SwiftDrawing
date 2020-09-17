@@ -10,8 +10,8 @@ import UIKit
 
 
 enum SketchPointOption: Int{
-    case leftTop = 0, rightTop = 1, rightBottom = 2
-    case leftBottom = 3, centerLnTop = 4, centerLnLeft = 5
+    case leftTop = 0, rightTop = 1, leftBottom = 2
+    case rightBottom = 3, centerLnTop = 4, centerLnLeft = 5
     case centerLnRight = 6, centerLnBottom = 7
     
     
@@ -165,8 +165,8 @@ class SketchView: UIView {
         
         // 判定选中的最大距离
         let maxDistance: CGFloat = 20
-        let points = [defaultPoints.leftTop, defaultPoints.rightTop, defaultPoints.rightBottom,
-                      defaultPoints.leftBottom, defaultPoints.lnTopCenter, defaultPoints.lnLeftCenter,
+        let points = [defaultPoints.leftTop, defaultPoints.rightTop, defaultPoints.leftBottom,
+                      defaultPoints.rightBottom, defaultPoints.lnTopCenter, defaultPoints.lnLeftCenter,
                       defaultPoints.lnRightCenter, defaultPoints.lnBottomCenter]
         for pt in points{
             let distance = sqrt(pow(pt.x - currentPoint.x, 2) + pow(pt.y - currentPoint.y, 2))
