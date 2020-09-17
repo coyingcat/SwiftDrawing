@@ -128,41 +128,44 @@ struct SketchModel{
         }
         set{
             doingParallel = true
+            guard let rhsTop = currentState.rhsTop, let lhsTop = currentState.lhsTop,
+                let rhsBottom = currentState.rhsBottom , let lhsBottom = currentState.lhsBottom else{
+                    return
+            }
             
-            
-            let lhsDistance = leftTop.y - leftBottom.y
+            let lhsDistance = lhsTop.y - lhsBottom.y
             var topH = true, bottomH = true
             
             
-            let topDistance = rightTop.y - leftTop.y
+            let topDistance = rhsTop.y - lhsTop.y
             if abs(topDistance) < limite{
                 topH = false
             }
-            let bottomDistance = rightBottom.y - leftBottom.y
+            let bottomDistance = rhsBottom.y - lhsBottom.y
             if abs(bottomDistance) < limite{
                 bottomH = false
             }
 
-            let k = (leftTop.x - leftBottom.x)/lhsDistance
+            let k = (lhsTop.x - lhsBottom.x)/lhsDistance
                         
             if topH{
-                let ths = (rightTop.x - leftTop.x)/topDistance
-                let x = (((rightTop.y - newValue.y) * ths - rightTop.x)*k + newValue.x * ths)/(ths - k)
+                let ths = (rhsTop.x - lhsTop.x)/topDistance
+                let x = (((rhsTop.y - newValue.y) * ths - rhsTop.x)*k + newValue.x * ths)/(ths - k)
                 leftTop.x = x
                 leftTop.y = (x + newValue.y * k - newValue.x)/k
             }
             else{
-                leftTop.x = (rightTop.y - newValue.y) * k + newValue.x
+                leftTop.x = (rhsTop.y - newValue.y) * k + newValue.x
             }
             
             if bottomH{
-                let bhs = (rightBottom.x - leftBottom.x)/bottomDistance
-                let x = (((rightBottom.y - newValue.y) * bhs - rightBottom.x)*k + newValue.x * bhs)/(bhs - k)
+                let bhs = (rhsBottom.x - lhsBottom.x)/bottomDistance
+                let x = (((rhsBottom.y - newValue.y) * bhs - rhsBottom.x)*k + newValue.x * bhs)/(bhs - k)
                 leftBottom.x = x
                 leftBottom.y = (x + newValue.y * k - newValue.x)/k
             }
             else{
-                leftBottom.x = (rightBottom.y - newValue.y) * k + newValue.x
+                leftBottom.x = (rhsBottom.y - newValue.y) * k + newValue.x
             }
             
             
@@ -179,30 +182,33 @@ struct SketchModel{
             
             doingParallel = true
             
+            guard let rhsTop = currentState.rhsTop, let lhsTop = currentState.lhsTop,
+                let rhsBottom = currentState.rhsBottom , let lhsBottom = currentState.lhsBottom else{
+                    return
+            }
             
-            
-            let bottomDistance = rightBottom.x - leftBottom.x
+            let bottomDistance = rhsBottom.x - lhsBottom.x
             var lhsV = true, rhsV = true
             
-            let lhsDistance = leftTop.x - leftBottom.x
+            let lhsDistance = lhsTop.x - lhsBottom.x
             if abs(lhsDistance) < limite{
                 lhsV = false
             }
-            let rhsDistance = rightTop.x - rightBottom.x
+            let rhsDistance = rhsTop.x - rhsBottom.x
             if abs(rhsDistance) < limite{
                 rhsV = false
             }
             
-            let k = (rightBottom.y - leftBottom.y)/bottomDistance
+            let k = (rhsBottom.y - lhsBottom.y)/bottomDistance
             
             if lhsV{
-                let w = (leftTop.y - leftBottom.y)/lhsDistance
-                let y = (((leftBottom.x - newValue.x) * k + newValue.y) * w - leftBottom.y * k)/(w - k)
+                let w = (lhsTop.y - lhsBottom.y)/lhsDistance
+                let y = (((lhsBottom.x - newValue.x) * k + newValue.y) * w - lhsBottom.y * k)/(w - k)
                 leftBottom.y = y
                 leftBottom.x = (y + newValue.x * k - newValue.y)/k
             }
             else{
-                let y = (leftBottom.x - newValue.x) * k + newValue.y
+                let y = (lhsBottom.x - newValue.x) * k + newValue.y
                 leftBottom.y = y
             }
             
@@ -212,13 +218,13 @@ struct SketchModel{
             
             
             if rhsV{
-                let rhs = (rightTop.y - rightBottom.y)/rhsDistance
-                let rhsY = (k * rightBottom.y + ((newValue.x - rightBottom.x)*k - newValue.y) * rhs)/(k - rhs)
+                let rhs = (rhsTop.y - rhsBottom.y)/rhsDistance
+                let rhsY = (k * rhsBottom.y + ((newValue.x - rhsBottom.x)*k - newValue.y) * rhs)/(k - rhs)
                 rightBottom.y = rhsY
                 rightBottom.x = (rhsY + newValue.x * k - newValue.x)/k
             }
             else{
-                let rhsY = newValue.y - (newValue.x - rightBottom.x)*k
+                let rhsY = newValue.y - (newValue.x - rhsBottom.x)*k
                 rightBottom.y = rhsY
             }
             
@@ -234,41 +240,44 @@ struct SketchModel{
         }
         set{
             doingParallel = true
+            guard let rhsTop = currentState.rhsTop, let lhsTop = currentState.lhsTop,
+                let rhsBottom = currentState.rhsBottom , let lhsBottom = currentState.lhsBottom else{
+                    return
+            }
             
-            
-            let rhsDistance = rightTop.y - rightBottom.y
+            let rhsDistance = rhsTop.y - rhsBottom.y
             var topH = true, bottomH = true
 
 
-            let topDistance = rightTop.y - leftTop.y
+            let topDistance = rhsTop.y - lhsTop.y
             if abs(topDistance) < limite{
                 topH = false
             }
-            let bottomDistance = rightBottom.y - leftBottom.y
+            let bottomDistance = rhsBottom.y - lhsBottom.y
             if abs(bottomDistance) < limite{
                 bottomH = false
             }
 
-            let k = (rightTop.x - rightBottom.x)/rhsDistance
+            let k = (rhsTop.x - rhsBottom.x)/rhsDistance
 
             if topH{
-                let ths = (rightTop.x - leftTop.x)/topDistance
-                let x = (((leftTop.y - newValue.y) * ths - leftTop.x)*k + newValue.x * ths)/(ths - k)
+                let ths = (rhsTop.x - lhsTop.x)/topDistance
+                let x = (((lhsTop.y - newValue.y) * ths - lhsTop.x)*k + newValue.x * ths)/(ths - k)
                 rightTop.x = x
                 rightTop.y = (x + newValue.y * k - newValue.x)/k
             }
             else{
-                rightTop.x = (leftTop.y - newValue.y) * k + newValue.x
+                rightTop.x = (lhsTop.y - newValue.y) * k + newValue.x
             }
 
             if bottomH{
-                let bhs = (rightBottom.x - leftBottom.x)/bottomDistance
-                let x = (((rightBottom.y - newValue.y) * bhs - rightBottom.x)*k + newValue.x * bhs)/(bhs - k)
+                let bhs = (rhsBottom.x - lhsBottom.x)/bottomDistance
+                let x = (((rhsBottom.y - newValue.y) * bhs - rhsBottom.x)*k + newValue.x * bhs)/(bhs - k)
                 rightBottom.x = x
                 rightBottom.y = (x + newValue.y * k - newValue.x)/k
             }
             else{
-                rightBottom.x = (rightBottom.y - newValue.y) * k + newValue.x
+                rightBottom.x = (rhsBottom.y - newValue.y) * k + newValue.x
             }
             
             
