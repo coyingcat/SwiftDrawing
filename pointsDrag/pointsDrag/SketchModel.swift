@@ -228,15 +228,20 @@ struct SketchModel{
             }
             
                 
-            
-            
-            
-            
+    
+             //  -(((d-b)*k-c)*w+a*k)/(w-k)
+             
+             //  (((b - d)*k + c)*w - a*k)/(w - k)
+             
+             //  (((d-b)*k-c)*w+a*k)/(k - w)
+    
+    
+                  //  x = (y+b*w-a)/w
             if rhsV{
                 let rhs = (rhsTop.y - rhsBottom.y)/rhsDistance
                 let rhsY = (k * rhsBottom.y + ((newValue.x - rhsBottom.x)*k - newValue.y) * rhs)/(k - rhs)
                 rightBottom.y = rhsY
-                rightBottom.x = (rhsY + newValue.x * k - newValue.x)/k
+                rightBottom.x = (rhsY + rhsBottom.x * rhs - rhsBottom.y)/rhs
             }
             else{
                 let rhsY = newValue.y - (newValue.x - rhsBottom.x)*k
