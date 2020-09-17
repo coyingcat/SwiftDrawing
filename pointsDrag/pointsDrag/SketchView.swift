@@ -65,7 +65,7 @@ class SketchView: UIView {
     
     var defaultPoints = SketchModel()
     
-    
+    var ggTouch = false
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -170,10 +170,12 @@ class SketchView: UIView {
         
         super.touchesBegan(touches, with: event)
         
-        
+        ggTouch = false
         guard let touch = touches.first else{
             return
         }
+        
+        
         let currentPoint = touch.location(in: self)
         
         // 判定选中的最大距离
@@ -200,18 +202,19 @@ class SketchView: UIView {
             guard bounds.contains(current) else{
                 return
             }
-            var miniCheck = true
+   
             
             for pt in defaultPoints.restPoints{
                 let distance = abs(pt.x - current.x) + abs(pt.y - current.y)
                 if distance < 40{
-                    miniCheck = false
+                    ggTouch = true
                     break
                 }
             }
             
             
-            guard miniCheck else {
+            guard ggTouch == false else {
+                
                 return
             }
             
@@ -244,6 +247,7 @@ class SketchView: UIView {
         super.touchesEnded(touches, with: event)
         currentControlPointType = nil
         defaultPoints.doingParallel = false
+        ggTouch = false
     }
     
     
@@ -251,6 +255,7 @@ class SketchView: UIView {
         super.touchesCancelled(touches, with: event)
         currentControlPointType = nil
         defaultPoints.doingParallel = false
+        ggTouch = false
     }
 }
 
