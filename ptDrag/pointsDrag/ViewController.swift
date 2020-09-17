@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     
     let magnifieViewWH : CGFloat = 150
     
-    lazy var magnifierV = MagnifierView(frame: CGRect(x: 0, y: 0, width: magnifieViewWH, height: magnifieViewWH))
+    lazy var magnifierV = MagnifierView(frame: CGRect(x: 0, y: UIScreen.main.bounds.height - magnifieViewWH * 1.5, width: magnifieViewWH, height: magnifieViewWH))
 
     override func viewDidLoad() {
         super.viewDidLoad()

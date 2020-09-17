@@ -188,7 +188,7 @@ class SketchView: UIView{
         
         
         let currentPoint = touch.location(in: self)
-        delegate?.sketch(status: true)
+        
         // 判定选中的最大距离
         let maxDistance: CGFloat = 20
         let points = [defaultPoints.leftTop, defaultPoints.rightTop, defaultPoints.leftBottom,
@@ -197,6 +197,7 @@ class SketchView: UIView{
             let distance = abs(pt.x - currentPoint.x) + abs(pt.y - currentPoint.y)
             if distance <= maxDistance, let pointIndex = points.firstIndex(of: pt){
                 currentControlPointType = SketchPointOption(rawValue: pointIndex)
+                delegate?.sketch(status: true)
                 break
             }
         }
@@ -216,7 +217,7 @@ class SketchView: UIView{
             }
    
             
-            delegate?.sketch(status: true)
+            delegate?.sketch(moving: current)
             
             let points = defaultPoints.restPoints + [current]
             let ptCount = points.count
