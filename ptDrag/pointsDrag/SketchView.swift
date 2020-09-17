@@ -248,19 +248,29 @@ class SketchView: UIView {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
-        currentControlPointType = nil
-        ggTouch = false
-
+        forTheFinal()
+        
     }
     
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
-        currentControlPointType = nil
-        ggTouch = false
+        forTheFinal()
 
     }
+    
+    
+    func forTheFinal(){
+        defaultPoints.sortPointClockwise()
+        if defaultPoints.gimpTransformPolygonIsConvex{
+            reloadData()
+        }
+        
+        currentControlPointType = nil
+        ggTouch = false
+    }
 }
+
 
 
 
