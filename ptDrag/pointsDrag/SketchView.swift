@@ -190,7 +190,7 @@ class SketchView: UIView {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesMoved(touches, with: event)
-        if let currentType = currentControlPointType, let touch = touches.first{
+        if currentControlPointType != nil, let touch = touches.first{
             let current = touch.location(in: self)
             guard bounds.contains(current) else{
                 return
@@ -212,32 +212,13 @@ class SketchView: UIView {
             }
             
             
-            switch currentType {
-            case .leftTop:
-                defaultPoints.leftTop = current
-            case .rightTop:
-                defaultPoints.rightTop = current
-            case .leftBottom:
-                defaultPoints.leftBottom = current
-            case .rightBottom:
-                defaultPoints.rightBottom = current
-            }
+            prepare(point: current)
             if defaultPoints.gimpTransformPolygonIsConvex == false{
                 ggFourSide = true
             }
             guard ggFourSide == false else {
                 if let last = lastPoint{
-                    switch currentType {
-                    case .leftTop:
-                        defaultPoints.leftTop = last
-                    case .rightTop:
-                        defaultPoints.rightTop = last
-                    case .leftBottom:
-                        defaultPoints.leftBottom = last
-                    case .rightBottom:
-                        defaultPoints.rightBottom = last
-                    }
-                    
+                    prepare(point: last)
                     reloadData()
                 }
                 
@@ -249,6 +230,24 @@ class SketchView: UIView {
         
     }
 
+    
+    func prepare(point pt: CGPoint){
+        if let type = currentControlPointType{
+            switch type {
+            case .leftTop:
+                defaultPoints.leftTop = pt
+            case .rightTop:
+                defaultPoints.rightTop = pt
+            case .leftBottom:
+                defaultPoints.leftBottom = pt
+            case .rightBottom:
+                defaultPoints.rightBottom = pt
+            }
+        }
+        
+    }
+    
+    
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
