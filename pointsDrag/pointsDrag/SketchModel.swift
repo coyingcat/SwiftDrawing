@@ -121,16 +121,11 @@ struct SketchModel{
                 leftTop.y = y
             }
             
-                
-            
-            
-            
-            
             if rhsV{
                 let rhs = (rhsTop.y - rhsBottom.y)/rhsDistance
                 let rhsY = (k * rhsTop.y + ((newValue.x - rhsTop.x)*k - newValue.y) * rhs)/(k - rhs)
                 rightTop.y = rhsY
-                rightTop.x = (rhsY + newValue.x * k - newValue.x)/k
+                rightTop.x = (rhsY + rhsTop.x * rhs - rhsTop.y)/rhs
             }
             else{
                 let rhsY = newValue.y - (newValue.x - rhsTop.x)*k
