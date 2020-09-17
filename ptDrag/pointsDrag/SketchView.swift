@@ -9,16 +9,25 @@
 import UIKit
 
 
-enum SketchPointOption: Int{
-    case leftTop = 0, rightTop = 1, leftBottom = 2
-    case rightBottom = 3
+
+
+
+
+
+
+class SketchView: UIView{
     
     
-}
-
-
-
-class SketchView: UIView {
+    struct SketchColor{
+        static let normal = UIColor(rgb: 0x43CAD5).cgColor
+        static let disable = UIColor.red.cgColor
+    }
+    
+    
+    enum SketchPointOption: Int{
+        case leftTop = 0, rightTop = 1, leftBottom = 2
+        case rightBottom = 3
+    }
 
     var currentControlPointType: SketchPointOption? = nil{
         didSet{
@@ -37,20 +46,20 @@ class SketchView: UIView {
     var lineLayer: CAShapeLayer = {
         let l = CAShapeLayer()
         l.fillColor = UIColor.clear.cgColor
-        l.strokeColor = UIColor.red.cgColor
+        l.strokeColor = SketchColor.normal
         return l
     }()
     
     var pointsLayer: CAShapeLayer = {
         let l = CAShapeLayer()
         l.fillColor = UIColor.white.cgColor
-        l.strokeColor = UIColor.red.cgColor
+        l.strokeColor = SketchColor.normal
         return l
     }()
     
     var linePath: UIBezierPath = {
         let l = UIBezierPath()
-        l.lineWidth = 2
+        l.lineWidth = 1
         return l
     }()
     
@@ -281,4 +290,29 @@ extension CGPoint{
     }
 
 
+}
+
+
+
+extension UIColor {
+    
+    
+    convenience init(red: Int, green: Int, blue: Int, alpha: CGFloat) {
+        assert(red >= 0 && red <= 255, "Invalid red component")
+        assert(green >= 0 && green <= 255, "Invalid green component")
+        assert(blue >= 0 && blue <= 255, "Invalid blue component")
+        
+        self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: alpha)
+    }
+    
+    
+    
+    convenience init(rgb: Int, alpha: CGFloat = 1) {
+        self.init(
+            red: (rgb >> 16) & 0xFF,
+            green: (rgb >> 8) & 0xFF,
+            blue: rgb & 0xFF,
+            alpha: alpha
+        )
+    }
 }
