@@ -36,6 +36,8 @@ struct SketchModel{
     
     var currentState = StateKeep()
     
+    var restPoints = [CGPoint]()
+    
     
     var doingParallel = false{
         didSet{

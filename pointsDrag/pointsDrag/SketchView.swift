@@ -21,7 +21,20 @@ enum SketchPointOption: Int{
 
 class SketchView: UIView {
 
-    var currentControlPointType: SketchPointOption?
+    var currentControlPointType: SketchPointOption? = nil{
+        didSet{
+            if let type = currentControlPointType{
+                var pts = [defaultPoints.leftTop, defaultPoints.rightTop, defaultPoints.leftBottom,
+                           defaultPoints.rightBottom, defaultPoints.lnTopCenter, defaultPoints.lnLeftCenter,
+                           defaultPoints.lnRightCenter, defaultPoints.lnBottomCenter]
+                pts.remove(at: type.rawValue)
+                defaultPoints.restPoints = pts
+            }
+            else{
+                defaultPoints.restPoints = []
+            }
+        }
+    }
     
     var lineLayer: CAShapeLayer = {
         let l = CAShapeLayer()
@@ -182,28 +195,44 @@ class SketchView: UIView {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesMoved(touches, with: event)
-        if let current = currentControlPointType, let touch = touches.first{
-            let pt = touch.location(in: self)
-            guard bounds.contains(pt) else{
+        if let currentType = currentControlPointType, let touch = touches.first{
+            let current = touch.location(in: self)
+            guard bounds.contains(current) else{
                 return
             }
-            switch current {
+            var miniCheck = true
+            
+            for pt in defaultPoints.restPoints{
+                let distance = sqrt(pow(pt.x - current.x, 2) + pow(pt.y - current.y, 2))
+                if distance < 30{
+                    miniCheck = false
+                    break
+                }
+            }
+            
+            
+            guard miniCheck else {
+                return
+            }
+            
+            
+            switch currentType {
             case .leftTop:
-                defaultPoints.leftTop = pt
+                defaultPoints.leftTop = current
             case .rightTop:
-                defaultPoints.rightTop = pt
+                defaultPoints.rightTop = current
             case .leftBottom:
-                defaultPoints.leftBottom = pt
+                defaultPoints.leftBottom = current
             case .rightBottom:
-                defaultPoints.rightBottom = pt
+                defaultPoints.rightBottom = current
             case .centerLnTop:
-                defaultPoints.lnTopCenter = pt
+                defaultPoints.lnTopCenter = current
             case .centerLnLeft:
-                defaultPoints.lnLeftCenter = pt
+                defaultPoints.lnLeftCenter = current
             case .centerLnRight:
-                defaultPoints.lnRightCenter = pt
+                defaultPoints.lnRightCenter = current
             case .centerLnBottom:
-                defaultPoints.lnBottomCenter = pt
+                defaultPoints.lnBottomCenter = current
             }
             reloadData()
         }
