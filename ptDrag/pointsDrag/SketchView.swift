@@ -222,7 +222,7 @@ class SketchView: UIView {
                     }
                     else{
                         let offset = (rhs.y - lhs.y)/oneDistance - (current.y - lhs.y)/twoDistance
-                        if abs(offset) < 0.1{
+                        if abs(offset) < 0.25{
                             ggTouch = true
                             break
                         }
