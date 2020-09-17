@@ -145,7 +145,7 @@ struct SketchModel{
                 let w = (leftTop.y - leftBottom.y)/lhsDistance
                 let y = (((leftBottom.x - newValue.x) * k + newValue.y) * w - leftBottom.y * k)/(w - k)
                 leftBottom.y = y
-                leftTop.x = (y + newValue.x * k - newValue.y)/k
+                leftBottom.x = (y + newValue.x * k - newValue.y)/k
             }
             else{
                 let y = (leftBottom.x - newValue.x) * k + newValue.y
@@ -159,13 +159,13 @@ struct SketchModel{
             
             if rhsV{
                 let rhs = (rightTop.y - rightBottom.y)/rhsDistance
-                let rhsY = (k * rightTop.y + ((newValue.x - rightTop.x)*k - newValue.y) * rhs)/(k - rhs)
-                rightTop.y = rhsY
-                rightTop.x = (rhsY + newValue.x * k - newValue.x)/k
+                let rhsY = (k * rightBottom.y + ((newValue.x - rightBottom.x)*k - newValue.y) * rhs)/(k - rhs)
+                rightBottom.y = rhsY
+                rightBottom.x = (rhsY + newValue.x * k - newValue.x)/k
             }
             else{
-                let rhsY = newValue.y - (newValue.x - rightTop.x)*k
-                rightTop.y = rhsY
+                let rhsY = newValue.y - (newValue.x - rightBottom.x)*k
+                rightBottom.y = rhsY
             }
             
             
@@ -179,40 +179,40 @@ struct SketchModel{
             centerPoint(from: rightTop, to: rightBottom)
         }
         set{
-            let rhsDistance = rightTop.y - rightBottom.y
-            var topH = true, bottomH = true
-            
-            
-            let topDistance = rightTop.y - leftTop.y
-            if abs(topDistance) < limite{
-                topH = false
-            }
-            let bottomDistance = rightBottom.y - leftBottom.y
-            if abs(bottomDistance) < limite{
-                bottomH = false
-            }
-
-            let k = (rightTop.x - rightBottom.x)/rhsDistance
-                 
-            if topH{
-                let ths = (rightTop.x - leftTop.x)/topDistance
-                let x = (((leftTop.y - newValue.y) * ths - leftTop.x)*k + newValue.x * ths)/(ths - k)
-                rightTop.x = x
-                rightTop.y = (x + newValue.y * k - newValue.x)/k
-            }
-            else{
-                rightTop.x = (leftTop.y - newValue.y) * k + newValue.x
-            }
-            
-            if bottomH{
-                let bhs = (rightBottom.x - leftBottom.x)/bottomDistance
-                let x = (((rightBottom.y - newValue.y) * bhs - rightBottom.x)*k + newValue.x * bhs)/(bhs - k)
-                rightBottom.x = x
-                rightBottom.y = (x + newValue.y * k - newValue.x)/k
-            }
-            else{
-                rightBottom.x = (rightBottom.y - newValue.y) * k + newValue.x
-            }
+//            let rhsDistance = rightTop.y - rightBottom.y
+//            var topH = true, bottomH = true
+//            
+//            
+//            let topDistance = rightTop.y - leftTop.y
+//            if abs(topDistance) < limite{
+//                topH = false
+//            }
+//            let bottomDistance = rightBottom.y - leftBottom.y
+//            if abs(bottomDistance) < limite{
+//                bottomH = false
+//            }
+//
+//            let k = (rightTop.x - rightBottom.x)/rhsDistance
+//                 
+//            if topH{
+//                let ths = (rightTop.x - leftTop.x)/topDistance
+//                let x = (((leftTop.y - newValue.y) * ths - leftTop.x)*k + newValue.x * ths)/(ths - k)
+//                rightTop.x = x
+//                rightTop.y = (x + newValue.y * k - newValue.x)/k
+//            }
+//            else{
+//                rightTop.x = (leftTop.y - newValue.y) * k + newValue.x
+//            }
+//            
+//            if bottomH{
+//                let bhs = (rightBottom.x - leftBottom.x)/bottomDistance
+//                let x = (((rightBottom.y - newValue.y) * bhs - rightBottom.x)*k + newValue.x * bhs)/(bhs - k)
+//                rightBottom.x = x
+//                rightBottom.y = (x + newValue.y * k - newValue.x)/k
+//            }
+//            else{
+//                rightBottom.x = (rightBottom.y - newValue.y) * k + newValue.x
+//            }
             
             
         }
