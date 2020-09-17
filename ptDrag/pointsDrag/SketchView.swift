@@ -65,7 +65,7 @@ class SketchView: UIView {
     
     var ggTouch = false
 
-    var lastPoint: CGPoint?
+
     
     
     override init(frame: CGRect) {
@@ -164,7 +164,7 @@ class SketchView: UIView {
         super.touchesBegan(touches, with: event)
 
         ggTouch = false
-        lastPoint = nil
+
         guard let touch = touches.first else{
             return
         }
@@ -198,7 +198,7 @@ class SketchView: UIView {
    
             
             let points = defaultPoints.restPoints + [current]
-            var ptCount = points.count
+            let ptCount = points.count
             for i in 0...(ptCount - 2){
                 for j in (i + 1)...(ptCount - 1){
                     let lhs = points[i]
@@ -211,27 +211,7 @@ class SketchView: UIView {
                 }
             }
             
-            ptCount = defaultPoints.restPoints.count - 1
-            for i in 0...(ptCount - 2){
-                for j in (i + 1)...(ptCount - 1){
-                    let lhs = points[i]
-                    let rhs = points[j]
-                    let oneDistance = rhs.x - lhs.x
-                    let twoDistance = current.x - lhs.x
-                    if abs(oneDistance) < 5 , abs(twoDistance) < 5{
-                        ggTouch = true
-                        break
-                    }
-                    else{
-                        let oneArcTan = atan((rhs.y - lhs.y)/oneDistance) * 180 / CGFloat.pi
-                        let twoArcTan = atan((current.y - lhs.y)/twoDistance) * 180 / CGFloat.pi
-                        if abs(oneArcTan - twoArcTan) < 20{
-                            ggTouch = true
-                            break
-                        }
-                    }
-                }
-            }
+      
             
             
             guard ggTouch == false else {
@@ -240,20 +220,7 @@ class SketchView: UIView {
             }
             prepare(point: current)
             
-            guard defaultPoints.gimpTransformPolygonIsConvex else{
-                if let last = lastPoint{
-                    prepare(point: last)
-                    
-                    reloadData()
-                }
-                
-                return
-            }
-            
-            
-            
-            
-            lastPoint = current
+         
          
             reloadData()
         }
@@ -283,7 +250,6 @@ class SketchView: UIView {
         super.touchesEnded(touches, with: event)
         currentControlPointType = nil
         ggTouch = false
-        lastPoint = nil
 
     }
     
@@ -292,7 +258,7 @@ class SketchView: UIView {
         super.touchesCancelled(touches, with: event)
         currentControlPointType = nil
         ggTouch = false
-        lastPoint = nil
+
     }
 }
 
