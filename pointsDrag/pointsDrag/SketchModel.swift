@@ -10,6 +10,19 @@ import UIKit
 
 
 
+struct StateKeep {
+    var lhsTop: CGPoint?
+    var rhsTop: CGPoint?
+    
+    var lhsBottom: CGPoint?
+    var rhsBottom: CGPoint?
+    
+    var keeping = false
+}
+
+
+
+
 struct SketchModel{
     var leftTop: CGPoint
     var rightTop: CGPoint
@@ -17,7 +30,33 @@ struct SketchModel{
     var rightBottom: CGPoint
     
     
-    let limite: CGFloat = 0.03
+    let limite: CGFloat = 6
+    
+    
+    
+    var currentState = StateKeep()
+    
+    
+    var doingParallel = false{
+        didSet{
+            if doingParallel{
+                if currentState.keeping == false{
+                    currentState.keeping = true
+                    currentState.lhsTop = leftTop
+                    currentState.rhsTop = rightTop
+                    currentState.lhsBottom = leftBottom
+                    currentState.rhsBottom = rightBottom
+                }
+            }
+            else{
+                currentState.keeping = false
+                currentState.lhsTop = nil
+                currentState.rhsTop = nil
+                currentState.lhsBottom = nil
+                currentState.rhsBottom = nil
+            }
+        }
+    }
     
     
     var lnTopCenter: CGPoint{
@@ -25,33 +64,40 @@ struct SketchModel{
             centerPoint(from: leftTop, to: rightTop)
         }
         set{
-            let topDistance = rightTop.x - leftTop.x
+            doingParallel = true
+            guard let rhsTop = currentState.rhsTop, let lhsTop = currentState.lhsTop,
+                let rhsBottom = currentState.rhsBottom , let lhsBottom = currentState.lhsBottom else{
+                    return
+            }
+            
+            
+            let topDistance = rhsTop.x - lhsTop.x
             var lhsV = true, rhsV = true
             
             
             
-            let lhsDistance = leftTop.x - leftBottom.x
+            let lhsDistance = lhsTop.x - lhsBottom.x
             if abs(lhsDistance) < limite{
                 lhsV = false
             }
-            let rhsDistance = rightTop.x - rightBottom.x
+            let rhsDistance = rhsTop.x - rhsBottom.x
             if abs(rhsDistance) < limite{
                 rhsV = false
             }
             
             
             
-            let k = (rightTop.y - leftTop.y)/topDistance
+            let k = (rhsTop.y - lhsTop.y)/topDistance
             
             
             if lhsV{
-                let w = (leftTop.y - leftBottom.y)/lhsDistance
-                let y = (((leftBottom.x - newValue.x) * k + newValue.y) * w - leftBottom.y * k)/(w - k)
+                let w = (lhsTop.y - lhsBottom.y)/lhsDistance
+                let y = (((lhsBottom.x - newValue.x) * k + newValue.y) * w - lhsBottom.y * k)/(w - k)
                 leftTop.y = y
                 leftTop.x = (y + newValue.x * k - newValue.y)/k
             }
             else{
-                let y = (leftBottom.x - newValue.x) * k + newValue.y
+                let y = (lhsBottom.x - newValue.x) * k + newValue.y
                 leftTop.y = y
             }
             
@@ -61,13 +107,13 @@ struct SketchModel{
             
             
             if rhsV{
-                let rhs = (rightTop.y - rightBottom.y)/rhsDistance
-                let rhsY = (k * rightTop.y + ((newValue.x - rightTop.x)*k - newValue.y) * rhs)/(k - rhs)
+                let rhs = (rhsTop.y - rhsBottom.y)/rhsDistance
+                let rhsY = (k * rhsTop.y + ((newValue.x - rhsTop.x)*k - newValue.y) * rhs)/(k - rhs)
                 rightTop.y = rhsY
                 rightTop.x = (rhsY + newValue.x * k - newValue.x)/k
             }
             else{
-                let rhsY = newValue.y - (newValue.x - rightTop.x)*k
+                let rhsY = newValue.y - (newValue.x - rhsTop.x)*k
                 rightTop.y = rhsY
             }
             
@@ -81,6 +127,9 @@ struct SketchModel{
             centerPoint(from: leftTop, to: leftBottom)
         }
         set{
+            doingParallel = true
+            
+            
             let lhsDistance = leftTop.y - leftBottom.y
             var topH = true, bottomH = true
             
@@ -127,6 +176,11 @@ struct SketchModel{
             centerPoint(from: leftBottom, to: rightBottom)
         }
         set{
+            
+            doingParallel = true
+            
+            
+            
             let bottomDistance = rightBottom.x - leftBottom.x
             var lhsV = true, rhsV = true
             
@@ -171,48 +225,51 @@ struct SketchModel{
             
         }
     }
-
-
+    
+    
     
     var lnRightCenter: CGPoint{
         get{
             centerPoint(from: rightTop, to: rightBottom)
         }
         set{
-//            let rhsDistance = rightTop.y - rightBottom.y
-//            var topH = true, bottomH = true
-//            
-//            
-//            let topDistance = rightTop.y - leftTop.y
-//            if abs(topDistance) < limite{
-//                topH = false
-//            }
-//            let bottomDistance = rightBottom.y - leftBottom.y
-//            if abs(bottomDistance) < limite{
-//                bottomH = false
-//            }
-//
-//            let k = (rightTop.x - rightBottom.x)/rhsDistance
-//                 
-//            if topH{
-//                let ths = (rightTop.x - leftTop.x)/topDistance
-//                let x = (((leftTop.y - newValue.y) * ths - leftTop.x)*k + newValue.x * ths)/(ths - k)
-//                rightTop.x = x
-//                rightTop.y = (x + newValue.y * k - newValue.x)/k
-//            }
-//            else{
-//                rightTop.x = (leftTop.y - newValue.y) * k + newValue.x
-//            }
-//            
-//            if bottomH{
-//                let bhs = (rightBottom.x - leftBottom.x)/bottomDistance
-//                let x = (((rightBottom.y - newValue.y) * bhs - rightBottom.x)*k + newValue.x * bhs)/(bhs - k)
-//                rightBottom.x = x
-//                rightBottom.y = (x + newValue.y * k - newValue.x)/k
-//            }
-//            else{
-//                rightBottom.x = (rightBottom.y - newValue.y) * k + newValue.x
-//            }
+            doingParallel = true
+            
+            
+            let rhsDistance = rightTop.y - rightBottom.y
+            var topH = true, bottomH = true
+
+
+            let topDistance = rightTop.y - leftTop.y
+            if abs(topDistance) < limite{
+                topH = false
+            }
+            let bottomDistance = rightBottom.y - leftBottom.y
+            if abs(bottomDistance) < limite{
+                bottomH = false
+            }
+
+            let k = (rightTop.x - rightBottom.x)/rhsDistance
+
+            if topH{
+                let ths = (rightTop.x - leftTop.x)/topDistance
+                let x = (((leftTop.y - newValue.y) * ths - leftTop.x)*k + newValue.x * ths)/(ths - k)
+                rightTop.x = x
+                rightTop.y = (x + newValue.y * k - newValue.x)/k
+            }
+            else{
+                rightTop.x = (leftTop.y - newValue.y) * k + newValue.x
+            }
+
+            if bottomH{
+                let bhs = (rightBottom.x - leftBottom.x)/bottomDistance
+                let x = (((rightBottom.y - newValue.y) * bhs - rightBottom.x)*k + newValue.x * bhs)/(bhs - k)
+                rightBottom.x = x
+                rightBottom.y = (x + newValue.y * k - newValue.x)/k
+            }
+            else{
+                rightBottom.x = (rightBottom.y - newValue.y) * k + newValue.x
+            }
             
             
         }
