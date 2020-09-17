@@ -196,16 +196,20 @@ class SketchView: UIView {
                 return
             }
    
-            
-            for pt in defaultPoints.restPoints{
-                let distance = abs(pt.x - current.x) + abs(pt.y - current.y)
-                if distance < 40{
-                    ggTouch = true
-                    break
+            let ptCount = 4
+            let points = defaultPoints.restPoints + [current]
+            for i in 0...(ptCount - 2){
+                for j in (i + 1)...(ptCount - 1){
+                    let lhs = points[i]
+                    let rhs = points[j]
+                    let distance = abs(lhs.x - rhs.x) + abs(lhs.y - rhs.y)
+                    if distance < 40{
+                        ggTouch = true
+                        break
+                    }
                 }
             }
-            
-            
+
             guard ggTouch == false else {
                 
                 return

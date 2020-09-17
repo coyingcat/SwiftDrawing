@@ -43,7 +43,7 @@ struct SketchModel{
     }
     
     
-    
+    // 不好用
     var gimpTransformPolygonIsConvex: Bool{
         
         let x1 = leftTop.x, y1 = leftTop.y
