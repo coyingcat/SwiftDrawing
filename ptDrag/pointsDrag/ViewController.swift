@@ -14,7 +14,15 @@ class ViewController: UIViewController {
     
     lazy var imgView = UIImageView(image: image)
     
-    lazy var sketch = SketchView()
+    lazy var sketch: SketchView = {
+        let sk = SketchView()
+        sk.delegate = self
+        return sk
+    }()
+    
+    let magnifieViewWH : CGFloat = 150
+    
+    lazy var magnifierV = MagnifierView(frame: CGRect(x: 0, y: 0, width: magnifieViewWH, height: magnifieViewWH))
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +39,10 @@ class ViewController: UIViewController {
             view.addSubview(imgView)
             view.addSubview(sketch)
             sketch.reloadData()
+            
+            
+            magnifierV.renderView = imgView
+            view.addSubview(magnifierV)
         }
         
         
@@ -39,3 +51,19 @@ class ViewController: UIViewController {
 
 }
 
+
+
+
+extension ViewController: SketchViewProxy{
+
+    
+    func sketch(status isStart: Bool) {
+        magnifierV.isHidden = (isStart == false)
+    }
+    
+    func sketch(moving pt: CGPoint) {
+        // 设置渲染的中心点
+        magnifierV.renderPoint = pt
+    }
+    
+}

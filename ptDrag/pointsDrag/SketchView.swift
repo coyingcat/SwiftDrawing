@@ -11,7 +11,11 @@ import UIKit
 
 
 
-
+protocol SketchViewProxy: class {
+    func sketch(status isStart: Bool)
+    
+    func sketch(moving pt: CGPoint)
+}
 
 
 
@@ -28,6 +32,9 @@ class SketchView: UIView{
         case leftTop = 0, rightTop = 1, leftBottom = 2
         case rightBottom = 3
     }
+    
+    
+    weak var delegate: SketchViewProxy?
 
     var currentControlPointType: SketchPointOption? = nil{
         didSet{
@@ -173,16 +180,15 @@ class SketchView: UIView{
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         super.touchesBegan(touches, with: event)
-
-        ggTouch = false
-
+        
         guard let touch = touches.first else{
             return
         }
+        ggTouch = false
         
         
         let currentPoint = touch.location(in: self)
-        
+        delegate?.sketch(status: true)
         // 判定选中的最大距离
         let maxDistance: CGFloat = 20
         let points = [defaultPoints.leftTop, defaultPoints.rightTop, defaultPoints.leftBottom,
@@ -202,11 +208,15 @@ class SketchView: UIView{
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesMoved(touches, with: event)
         if currentControlPointType != nil, let touch = touches.first{
+            
+            
             let current = touch.location(in: self)
             guard bounds.contains(current) else{
                 return
             }
    
+            
+            delegate?.sketch(status: true)
             
             let points = defaultPoints.restPoints + [current]
             let ptCount = points.count
@@ -272,6 +282,7 @@ class SketchView: UIView{
     
     
     func forTheFinal(){
+        delegate?.sketch(status: false)
         if defaultPoints.sortPointClockwise(){
             lineLayer.strokeColor = SketchColor.normal
             pointsLayer.strokeColor = SketchColor.normal
