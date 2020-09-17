@@ -51,6 +51,23 @@ struct SketchModel{
         rightBottom = CGPoint(x: 100, y: 100)
     }
     
-    
+
   
+}
+
+
+
+
+
+
+extension CGPoint{
+    
+    func pointSideLine(left lhs: CGPoint, right rhs: CGPoint) -> CGFloat{
+        
+        
+        return (x - lhs.x) * (rhs.y - lhs.y) - (y - lhs.y) * (rhs.x - lhs.x)
+        
+    }
+    
+    
 }
