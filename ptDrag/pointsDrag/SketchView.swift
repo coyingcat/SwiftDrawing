@@ -45,6 +45,7 @@ class SketchView: UIView{
     
     var lineLayer: CAShapeLayer = {
         let l = CAShapeLayer()
+        l.lineWidth = 1
         l.fillColor = UIColor.clear.cgColor
         l.strokeColor = SketchColor.normal
         return l
@@ -53,6 +54,7 @@ class SketchView: UIView{
     var pointsLayer: CAShapeLayer = {
         let l = CAShapeLayer()
         l.fillColor = UIColor.white.cgColor
+        l.lineWidth = 2
         l.strokeColor = SketchColor.normal
         return l
     }()
@@ -272,9 +274,15 @@ class SketchView: UIView{
     func forTheFinal(){
         defaultPoints.sortPointClockwise()
         if defaultPoints.gimpTransformPolygonIsConvex{
-            reloadData()
+            lineLayer.strokeColor = SketchColor.normal
+            pointsLayer.strokeColor = SketchColor.normal
+        }
+        else{
+            lineLayer.strokeColor = SketchColor.disable
+            pointsLayer.strokeColor = SketchColor.disable
         }
         
+        reloadData()
         currentControlPointType = nil
         ggTouch = false
     }
