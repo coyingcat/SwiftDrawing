@@ -19,11 +19,6 @@ struct SketchModel{
     var leftBottom: CGPoint
     var rightBottom: CGPoint
     
-    
-    let limite: CGFloat = 6
-    
-
-    
     var restPoints = [CGPoint]()
     
     
@@ -43,20 +38,5 @@ struct SketchModel{
     }
     
     
-    // 不好用
-    var gimpTransformPolygonIsConvex: Bool{
-        
-        let x1 = leftTop.x, y1 = leftTop.y
-        let x2 = rightTop.x, y2 = rightTop.y
-        let x3 = leftBottom.x, y3 = leftBottom.y
-        let x4 = rightBottom.x, y4 = rightBottom.y
-     
-        let z1 = ((x2 - x1) * (y4 - y1) - (x4 - x1) * (y2 - y1))
-        let z2 = ((x4 - x1) * (y3 - y1) - (x3 - x1) * (y4 - y1))
-        let z3 = ((x4 - x2) * (y3 - y2) - (x3 - x2) * (y4 - y2))
-        let z4 = ((x3 - x2) * (y1 - y2) - (x1 - x2) * (y3 - y2))
-     
-        return (z1 * z2 > 0) && (z3 * z4 > 0)
-    }
-
+  
 }

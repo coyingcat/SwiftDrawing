@@ -64,9 +64,7 @@ class SketchView: UIView {
     var defaultPoints = SketchModel()
     
     var ggTouch = false
-    var ggFourSide = false
-    
-    var lastPoint: CGPoint?
+
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -162,9 +160,9 @@ class SketchView: UIView {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         super.touchesBegan(touches, with: event)
-        ggFourSide = false
+
         ggTouch = false
-        lastPoint = nil
+
         guard let touch = touches.first else{
             return
         }
@@ -196,8 +194,9 @@ class SketchView: UIView {
                 return
             }
    
-            let ptCount = 4
+            
             let points = defaultPoints.restPoints + [current]
+            var ptCount = points.count
             for i in 0...(ptCount - 2){
                 for j in (i + 1)...(ptCount - 1){
                     let lhs = points[i]
@@ -209,7 +208,29 @@ class SketchView: UIView {
                     }
                 }
             }
-
+            
+            ptCount = defaultPoints.restPoints.count - 1
+            for i in 0...(ptCount - 2){
+                for j in (i + 1)...(ptCount - 1){
+                    let lhs = points[i]
+                    let rhs = points[j]
+                    let oneDistance = rhs.x - lhs.x
+                    let twoDistance = current.x - lhs.x
+                    if abs(oneDistance) < 5 , abs(twoDistance) < 5{
+                        ggTouch = true
+                        break
+                    }
+                    else{
+                        let offset = (rhs.y - lhs.y)/oneDistance - (current.y - lhs.y)/twoDistance
+                        if abs(offset) < 0.1{
+                            ggTouch = true
+                            break
+                        }
+                    }
+                }
+            }
+            
+            
             guard ggTouch == false else {
                 
                 return
@@ -217,18 +238,7 @@ class SketchView: UIView {
             
             
             prepare(point: current)
-            if defaultPoints.gimpTransformPolygonIsConvex == false{
-                ggFourSide = true
-            }
-            guard ggFourSide == false else {
-                if let last = lastPoint{
-                    prepare(point: last)
-                    reloadData()
-                }
-                
-                return
-            }
-            lastPoint = current
+         
             reloadData()
         }
         
@@ -257,7 +267,7 @@ class SketchView: UIView {
         super.touchesEnded(touches, with: event)
         currentControlPointType = nil
         ggTouch = false
-        ggFourSide = false
+
     }
     
     
@@ -265,7 +275,7 @@ class SketchView: UIView {
         super.touchesCancelled(touches, with: event)
         currentControlPointType = nil
         ggTouch = false
-        ggFourSide = false
+ 
     }
 }
 
