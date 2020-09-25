@@ -18,9 +18,14 @@ struct StateKeep {
     var rhsBottom: CGPoint?
     
     var keeping = false
+    
 }
 
 
+
+struct SketchConst{
+    static let limite: CGFloat = 6
+}
 
 
 struct SketchModel{
@@ -30,7 +35,7 @@ struct SketchModel{
     var rightBottom: CGPoint
     
     
-    let limite: CGFloat = 6
+    
     
     
     
@@ -79,11 +84,11 @@ struct SketchModel{
             
             
             let lhsDistance = lhsTop.x - lhsBottom.x
-            if abs(lhsDistance) < limite{
+            if abs(lhsDistance) < SketchConst.limite{
                 lhsV = false
             }
             let rhsDistance = rhsTop.x - rhsBottom.x
-            if abs(rhsDistance) < limite{
+            if abs(rhsDistance) < SketchConst.limite{
                 rhsV = false
             }
             
@@ -155,11 +160,11 @@ struct SketchModel{
             
             
             let topDistance = rhsTop.y - lhsTop.y
-            if abs(topDistance) < limite{
+            if abs(topDistance) < SketchConst.limite{
                 topH = false
             }
             let bottomDistance = rhsBottom.y - lhsBottom.y
-            if abs(bottomDistance) < limite{
+            if abs(bottomDistance) < SketchConst.limite{
                 bottomH = false
             }
 
@@ -208,11 +213,11 @@ struct SketchModel{
             var lhsV = true, rhsV = true
             
             let lhsDistance = lhsTop.x - lhsBottom.x
-            if abs(lhsDistance) < limite{
+            if abs(lhsDistance) < SketchConst.limite{
                 lhsV = false
             }
             let rhsDistance = rhsTop.x - rhsBottom.x
-            if abs(rhsDistance) < limite{
+            if abs(rhsDistance) < SketchConst.limite{
                 rhsV = false
             }
             
@@ -267,42 +272,9 @@ struct SketchModel{
                     return
             }
             
-            let rhsDistance = rhsTop.y - rhsBottom.y
-            var topH = true, bottomH = true
-
-
-            let topDistance = rhsTop.y - lhsTop.y
-            if abs(topDistance) < limite{
-                topH = false
-            }
-            let bottomDistance = rhsBottom.y - lhsBottom.y
-            if abs(bottomDistance) < limite{
-                bottomH = false
-            }
-
-            let k = (rhsTop.x - rhsBottom.x)/rhsDistance
-
-            if topH{
-                let ths = (rhsTop.x - lhsTop.x)/topDistance
-                let x = (((lhsTop.y - newValue.y) * ths - lhsTop.x)*k + newValue.x * ths)/(ths - k)
-                rightTop.x = x
-                rightTop.y = (x + newValue.y * k - newValue.x)/k
-            }
-            else{
-                rightTop.x = (lhsTop.y - newValue.y) * k + newValue.x
-            }
-
-            if bottomH{
-                let bhs = (rhsBottom.x - lhsBottom.x)/bottomDistance
-                let x = (((rhsBottom.y - newValue.y) * bhs - rhsBottom.x)*k + newValue.x * bhs)/(bhs - k)
-                rightBottom.x = x
-                rightBottom.y = (x + newValue.y * k - newValue.x)/k
-            }
-            else{
-                rightBottom.x = (rhsBottom.y - newValue.y) * k + newValue.x
-            }
-            
-            
+            let gotIt = newValue.calculatelnRightCenter(rhsTopP: rhsTop, lhsTopP: lhsTop, rhsBottomP: rhsBottom, lhsBottomP: lhsBottom)
+            rightTop = gotIt.rhsTop
+            rightBottom = gotIt.rhsBottom
         }
     }
 

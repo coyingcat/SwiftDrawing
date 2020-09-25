@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		267660AF251DCA7B00CE649F /* SketchModelCalculate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267660AE251DCA7B00CE649F /* SketchModelCalculate.swift */; };
 		268855002511A2A5007B09C1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268854FF2511A2A5007B09C1 /* AppDelegate.swift */; };
 		268855022511A2A5007B09C1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268855012511A2A5007B09C1 /* SceneDelegate.swift */; };
 		268855042511A2A5007B09C1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268855032511A2A5007B09C1 /* ViewController.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		267660AE251DCA7B00CE649F /* SketchModelCalculate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SketchModelCalculate.swift; sourceTree = "<group>"; };
 		268854FC2511A2A5007B09C1 /* pointsDrag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pointsDrag.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		268854FF2511A2A5007B09C1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		268855012511A2A5007B09C1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				2688550D2511A2AB007B09C1 /* Info.plist */,
 				268855162511A4C1007B09C1 /* SketchView.swift */,
 				268855182511A849007B09C1 /* SketchModel.swift */,
+				267660AE251DCA7B00CE649F /* SketchModelCalculate.swift */,
 			);
 			path = pointsDrag;
 			sourceTree = "<group>";
@@ -160,6 +163,7 @@
 				268855172511A4C1007B09C1 /* SketchView.swift in Sources */,
 				268855042511A2A5007B09C1 /* ViewController.swift in Sources */,
 				268855002511A2A5007B09C1 /* AppDelegate.swift in Sources */,
+				267660AF251DCA7B00CE649F /* SketchModelCalculate.swift in Sources */,
 				268855022511A2A5007B09C1 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
