@@ -52,6 +52,15 @@ struct SketchModel{
     }
     
     
+    var oldCorners: [CGPoint]{
+        guard let rhsTop = currentState.rhsTop, let lhsTop = currentState.lhsTop,
+            let rhsBottom = currentState.rhsBottom , let lhsBottom = currentState.lhsBottom else{
+                return []
+        }
+        return [lhsTop, rhsTop, rhsBottom, lhsBottom]
+    }
+    
+    
     var currentState = StateKeep()
     
     var restCorners = [CGPoint]()

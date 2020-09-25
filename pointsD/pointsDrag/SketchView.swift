@@ -241,7 +241,7 @@ class SketchView: UIView {
             
             
             var thisSidePrePts = [CGPoint](), antiSidePts = [CGPoint]()
-            let corners = defaultPoints.corners
+            let corners = defaultPoints.oldCorners
             
             switch currentType {
             case .leftTop, .rightTop, .rightBottom,
@@ -256,21 +256,29 @@ class SketchView: UIView {
                   }
             
             case .centerLnTop:
-                let pts = current.calculateTopCenter(lhsTopP: corners[0], rhsTopP: corners[1],rhsBottomP: corners[2], lhsBottomP: corners[3])
-                thisSidePrePts.append(contentsOf: [pts.0, pts.1])
-                antiSidePts.append(contentsOf: [corners[2], corners[3]])
+                if corners.count == 4 {
+                    let pts = current.calculateTopCenter(lhsTopP: corners[0], rhsTopP: corners[1],rhsBottomP: corners[2], lhsBottomP: corners[3])
+                    thisSidePrePts.append(contentsOf: [pts.0, pts.1])
+                    antiSidePts.append(contentsOf: [corners[2], corners[3]])
+                }
             case .centerLnLeft:
-                let pts = current.calculateLeftCenter(lhsTopP: corners[0], rhsTopP: corners[1],rhsBottomP: corners[2], lhsBottomP: corners[3])
-                thisSidePrePts.append(contentsOf: [pts.0, pts.1])
-                antiSidePts.append(contentsOf: [corners[1], corners[2]])
+                if corners.count == 4 {
+                    let pts = current.calculateLeftCenter(lhsTopP: corners[0], rhsTopP: corners[1],rhsBottomP: corners[2], lhsBottomP: corners[3])
+                    thisSidePrePts.append(contentsOf: [pts.0, pts.1])
+                    antiSidePts.append(contentsOf: [corners[1], corners[2]])
+                }
             case .centerLnRight:
-                let pts = current.calculateRightCenter(lhsTopP: corners[0], rhsTopP: corners[1],rhsBottomP: corners[2], lhsBottomP: corners[3])
-                thisSidePrePts.append(contentsOf: [pts.0, pts.1])
-                antiSidePts.append(contentsOf: [corners[0], corners[3]])
+                if corners.count == 4 {
+                    let pts = current.calculateRightCenter(lhsTopP: corners[0], rhsTopP: corners[1],rhsBottomP: corners[2], lhsBottomP: corners[3])
+                    thisSidePrePts.append(contentsOf: [pts.0, pts.1])
+                    antiSidePts.append(contentsOf: [corners[0], corners[3]])
+                }
             case .centerLnBottom:
-                let pts = current.calculateBottomCenter(lhsTopP: corners[0], rhsTopP: corners[1],rhsBottomP: corners[2], lhsBottomP: corners[3])
-                thisSidePrePts.append(contentsOf: [pts.0, pts.1])
-                antiSidePts.append(contentsOf: [corners[0], corners[1]])
+                if corners.count == 4 {
+                    let pts = current.calculateBottomCenter(lhsTopP: corners[0], rhsTopP: corners[1],rhsBottomP: corners[2], lhsBottomP: corners[3])
+                    thisSidePrePts.append(contentsOf: [pts.0, pts.1])
+                    antiSidePts.append(contentsOf: [corners[0], corners[1]])
+                }
             }
             if thisSidePrePts.isEmpty == false{
                 for pt in antiSidePts{
