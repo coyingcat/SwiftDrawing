@@ -91,8 +91,8 @@ class SketchView: UIView {
         layer.addSublayer(lineLayer)
         layer.addSublayer(pointsLayer)
         
-        
-        
+        layer.borderColor = UIColor.green.cgColor
+        layer.borderWidth = 2
     }
     
     
@@ -198,17 +198,35 @@ class SketchView: UIView {
         let currentPoint = touch.location(in: self)
         
         // 判定选中的最大距离
-        let maxDistance: CGFloat = 20
+        
         let points = [defaultPoints.leftTop, defaultPoints.rightTop, defaultPoints.leftBottom,
                       defaultPoints.rightBottom, defaultPoints.lnTopCenter, defaultPoints.lnLeftCenter,
                       defaultPoints.lnRightCenter, defaultPoints.lnBottomCenter]
+        
+        var first = true
+        // from, current, 0
+        var mini = (CGPoint.zero, CGPoint.zero, CGFloat.zero)
         for pt in points{
             let distance = abs(pt.x - currentPoint.x) + abs(pt.y - currentPoint.y)
-            if distance <= maxDistance, let pointIndex = points.firstIndex(of: pt){
+            
+            
+            if first{
+                mini = (pt, currentPoint, distance)
+                first = false
+            }
+            else{
+                if distance < mini.2{
+                    mini = (pt, currentPoint, distance)
+                }
+            }
+            
+            
+            if distance <= SketchConst.std.radius, let pointIndex = points.firstIndex(of: pt){
                 currentControlPointType = SketchPointOption(rawValue: pointIndex)
                 break
             }
         }
+        print(mini)
     }
     
 
@@ -230,7 +248,7 @@ class SketchView: UIView {
                 .leftBottom:
                   for pt in defaultPoints.restCorners{
                       let distance = abs(pt.x - current.x) + abs(pt.y - current.y)
-                      if distance < 80{
+                      if distance < SketchConst.std.distance{
                           ggTouch = true
                           break
                       }
@@ -243,7 +261,7 @@ class SketchView: UIView {
                   for pt in defaultPoints.restCorners{
                       let distance = abs(pt.x - current.x) + abs(pt.y - current.y)
                       
-                      if distance < 80{
+                      if distance < SketchConst.std.distance{
                           ggTouch = true
                           break
                       }

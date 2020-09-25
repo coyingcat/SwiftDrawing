@@ -24,7 +24,17 @@ struct StateKeep {
 
 
 struct SketchConst{
-    static let limite: CGFloat = 6
+    
+    static let std = SketchConst()
+    
+    let limite: CGFloat = 6
+    
+    let radius: CGFloat = 30
+    let distance: CGFloat
+    
+    init() {
+        distance = radius * 4
+    }
 }
 
 
@@ -84,11 +94,11 @@ struct SketchModel{
             
             
             let lhsDistance = lhsTop.x - lhsBottom.x
-            if abs(lhsDistance) < SketchConst.limite{
+            if abs(lhsDistance) < SketchConst.std.limite{
                 lhsV = false
             }
             let rhsDistance = rhsTop.x - rhsBottom.x
-            if abs(rhsDistance) < SketchConst.limite{
+            if abs(rhsDistance) < SketchConst.std.limite{
                 rhsV = false
             }
             
@@ -160,11 +170,11 @@ struct SketchModel{
             
             
             let topDistance = rhsTop.y - lhsTop.y
-            if abs(topDistance) < SketchConst.limite{
+            if abs(topDistance) < SketchConst.std.limite{
                 topH = false
             }
             let bottomDistance = rhsBottom.y - lhsBottom.y
-            if abs(bottomDistance) < SketchConst.limite{
+            if abs(bottomDistance) < SketchConst.std.limite{
                 bottomH = false
             }
 
@@ -209,52 +219,9 @@ struct SketchModel{
                     return
             }
             
-            let bottomDistance = rhsBottom.x - lhsBottom.x
-            var lhsV = true, rhsV = true
-            
-            let lhsDistance = lhsTop.x - lhsBottom.x
-            if abs(lhsDistance) < SketchConst.limite{
-                lhsV = false
-            }
-            let rhsDistance = rhsTop.x - rhsBottom.x
-            if abs(rhsDistance) < SketchConst.limite{
-                rhsV = false
-            }
-            
-            let k = (rhsBottom.y - lhsBottom.y)/bottomDistance
-            
-            if lhsV{
-                let w = (lhsTop.y - lhsBottom.y)/lhsDistance
-                let y = (((lhsBottom.x - newValue.x) * k + newValue.y) * w - lhsBottom.y * k)/(w - k)
-                leftBottom.y = y
-                leftBottom.x = (y + newValue.x * k - newValue.y)/k
-            }
-            else{
-                let y = (lhsBottom.x - newValue.x) * k + newValue.y
-                leftBottom.y = y
-            }
-            
-                
-    
-             //  -(((d-b)*k-c)*w+a*k)/(w-k)
-             
-             //  (((b - d)*k + c)*w - a*k)/(w - k)
-             
-             //  (((d-b)*k-c)*w+a*k)/(k - w)
-    
-    
-                  //  x = (y+b*w-a)/w
-            if rhsV{
-                let rhs = (rhsTop.y - rhsBottom.y)/rhsDistance
-                let rhsY = (k * rhsBottom.y + ((newValue.x - rhsBottom.x)*k - newValue.y) * rhs)/(k - rhs)
-                rightBottom.y = rhsY
-                rightBottom.x = (rhsY + rhsBottom.x * rhs - rhsBottom.y)/rhs
-            }
-            else{
-                let rhsY = newValue.y - (newValue.x - rhsBottom.x)*k
-                rightBottom.y = rhsY
-            }
-            
+            let result = newValue.calculatelnBottomCenter(rhsTopP: rhsTop, lhsTopP: lhsTop, rhsBottomP: rhsBottom, lhsBottomP: lhsBottom)
+            leftBottom = result.lhsBottom
+            rightBottom = result.rhsBottom
             
         }
     }
@@ -292,12 +259,12 @@ struct SketchModel{
     init() {
         leftTop = CGPoint(x: 10, y: 10)
         
-        rightTop = CGPoint(x: 100, y: 10)
+        rightTop = CGPoint(x: 300, y: 10)
         
         
-        leftBottom = CGPoint(x: 10, y: 100)
+        leftBottom = CGPoint(x: 10, y: 300)
         
-        rightBottom = CGPoint(x: 100, y: 100)
+        rightBottom = CGPoint(x: 300, y: 300)
     }
     
     

@@ -9,11 +9,16 @@
 import UIKit
 
 
+typealias ReturnRightCenter = (rhsTop: CGPoint, rhsBottom: CGPoint)
+
+typealias ReturnBottomCenter = (lhsBottom: CGPoint, rhsBottom: CGPoint)
+
+
 
 
 extension CGPoint{
     
-typealias ReturnRightCenter = (rhsTop: CGPoint, rhsBottom: CGPoint)
+
         
     
     func calculatelnRightCenter(rhsTopP rhsTop: CGPoint, lhsTopP lhsTop: CGPoint, rhsBottomP rhsBottom: CGPoint, lhsBottomP lhsBottom: CGPoint) -> ReturnRightCenter{
@@ -25,11 +30,11 @@ typealias ReturnRightCenter = (rhsTop: CGPoint, rhsBottom: CGPoint)
 
 
         let topDistance = rhsTop.y - lhsTop.y
-        if abs(topDistance) < SketchConst.limite{
+        if abs(topDistance) < SketchConst.std.limite{
             topH = false
         }
         let bottomDistance = rhsBottom.y - lhsBottom.y
-        if abs(bottomDistance) < SketchConst.limite{
+        if abs(bottomDistance) < SketchConst.std.limite{
             bottomH = false
         }
 
@@ -51,6 +56,59 @@ typealias ReturnRightCenter = (rhsTop: CGPoint, rhsBottom: CGPoint)
         }
         else{
             result.rhsBottom = CGPoint(x: (rhsBottom.y - y) * k + x, y: y)
+        }
+        return result
+    }
+    
+    
+    
+    
+    func calculatelnBottomCenter(rhsTopP rhsTop: CGPoint, lhsTopP lhsTop: CGPoint, rhsBottomP rhsBottom: CGPoint, lhsBottomP lhsBottom: CGPoint) -> ReturnBottomCenter{
+        
+        var result: ReturnBottomCenter = (CGPoint.zero, CGPoint.zero)
+        
+        let bottomDistance = rhsBottom.x - lhsBottom.x
+        var lhsV = true, rhsV = true
+        
+        let lhsDistance = lhsTop.x - lhsBottom.x
+        if abs(lhsDistance) < SketchConst.std.limite{
+            lhsV = false
+        }
+        let rhsDistance = rhsTop.x - rhsBottom.x
+        if abs(rhsDistance) < SketchConst.std.limite{
+            rhsV = false
+        }
+        
+        let k = (rhsBottom.y - lhsBottom.y)/bottomDistance
+        
+        if lhsV{
+            let w = (lhsTop.y - lhsBottom.y)/lhsDistance
+            let retY = (((lhsBottom.x - x) * k + y) * w - lhsBottom.y * k)/(w - k)
+            result.lhsBottom = CGPoint(x: (retY + x * k - retY)/k, y: retY)
+        }
+        else{
+            let resultY = (lhsBottom.x - x) * k + y
+            result.lhsBottom = CGPoint(x: x, y: resultY)
+        }
+        
+            
+
+         //  -(((d-b)*k-c)*w+a*k)/(w-k)
+         
+         //  (((b - d)*k + c)*w - a*k)/(w - k)
+         
+         //  (((d-b)*k-c)*w+a*k)/(k - w)
+
+
+              //  x = (y+b*w-a)/w
+        if rhsV{
+            let rhs = (rhsTop.y - rhsBottom.y)/rhsDistance
+            let rhsY = (k * rhsBottom.y + ((x - rhsBottom.x)*k - y) * rhs)/(k - rhs)
+            result.rhsBottom = CGPoint(x: (rhsY + rhsBottom.x * rhs - rhsBottom.y)/rhs, y: rhsY)
+        }
+        else{
+            let rhsY = y - (x - rhsBottom.x)*k
+            result.rhsBottom = CGPoint(x: x, y: rhsY)
         }
         return result
     }
