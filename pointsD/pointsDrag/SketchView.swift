@@ -24,14 +24,29 @@ class SketchView: UIView {
     var currentControlPointType: SketchPointOption? = nil{
         didSet{
             if let type = currentControlPointType{
-                var pts = [defaultPoints.leftTop, defaultPoints.rightTop, defaultPoints.leftBottom,
-                           defaultPoints.rightBottom, defaultPoints.lnTopCenter, defaultPoints.lnLeftCenter,
-                           defaultPoints.lnRightCenter, defaultPoints.lnBottomCenter]
-                pts.remove(at: type.rawValue)
-                defaultPoints.restPoints = pts
+                var corners = [defaultPoints.leftTop, defaultPoints.rightTop, defaultPoints.leftBottom,
+                           defaultPoints.rightBottom]
+                var restPts = [CGPoint]()
+                switch type {
+                case .leftTop, .rightTop, .rightBottom,
+                     .leftBottom:
+                    corners.remove(at: type.rawValue)
+                    restPts = corners
+                case .centerLnLeft:
+                    restPts = [defaultPoints.rightTop, defaultPoints.rightBottom]
+                case .centerLnTop:
+                    restPts = [defaultPoints.rightBottom, defaultPoints.leftBottom]
+                case .centerLnBottom:
+                    restPts = [defaultPoints.leftTop, defaultPoints.rightTop]
+                case .centerLnRight:
+                    restPts = [defaultPoints.leftTop, defaultPoints.leftBottom]
+                }
+                defaultPoints.restCorners = restPts
+                defaultPoints.nearCorners = corners.filter({  restPts.contains($0) == false  })
             }
             else{
-                defaultPoints.restPoints = []
+                defaultPoints.restCorners = []
+                defaultPoints.nearCorners = []
             }
         }
     }
@@ -208,13 +223,35 @@ class SketchView: UIView {
             }
    
             
-            for pt in defaultPoints.restPoints{
-                let distance = abs(pt.x - current.x) + abs(pt.y - current.y)
-                if distance < 40{
-                    ggTouch = true
-                    break
-                }
+            
+            
+            switch currentType {
+            case .leftTop, .rightTop, .rightBottom,
+                .leftBottom:
+                  for pt in defaultPoints.restCorners{
+                      let distance = abs(pt.x - current.x) + abs(pt.y - current.y)
+                      if distance < 80{
+                          ggTouch = true
+                          break
+                      }
+                  
+                  }
+                
+            case .centerLnTop, .centerLnLeft, .centerLnRight,
+                 .centerLnBottom:
+                    
+                  for pt in defaultPoints.restCorners{
+                      let distance = abs(pt.x - current.x) + abs(pt.y - current.y)
+                      
+                      if distance < 80{
+                          ggTouch = true
+                          break
+                      }
+                
+                  }
             }
+            
+            
             
             
             guard ggTouch == false else {

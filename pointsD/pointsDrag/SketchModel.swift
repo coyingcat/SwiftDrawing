@@ -36,8 +36,8 @@ struct SketchModel{
     
     var currentState = StateKeep()
     
-    var restPoints = [CGPoint]()
-    
+    var restCorners = [CGPoint]()
+    var nearCorners = [CGPoint]()
     
     var doingParallel = false{
         didSet{
