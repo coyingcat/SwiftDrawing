@@ -10,9 +10,9 @@ import UIKit
 
 
 enum SketchPointOption: Int{
-    case leftTop = 0, rightTop = 1, leftBottom = 2
-    case rightBottom = 3, centerLnTop = 4, centerLnLeft = 5
-    case centerLnRight = 6, centerLnBottom = 7
+    case leftTop = 0, rightTop = 1, rightBottom = 2
+    case leftBottom = 3, centerLnTop = 4, centerLnRight = 5
+    case centerLnBottom = 6, centerLnLeft = 7
     
     
 }
@@ -24,8 +24,7 @@ class SketchView: UIView {
     var currentControlPointType: SketchPointOption? = nil{
         didSet{
             if let type = currentControlPointType{
-                var corners = [defaultPoints.leftTop, defaultPoints.rightTop, defaultPoints.leftBottom,
-                           defaultPoints.rightBottom]
+                var corners = defaultPoints.corners
                 var restPts = [CGPoint]()
                 switch type {
                 case .leftTop, .rightTop, .rightBottom,
@@ -199,9 +198,9 @@ class SketchView: UIView {
         
         // 判定选中的最大距离
         
-        let points = [defaultPoints.leftTop, defaultPoints.rightTop, defaultPoints.leftBottom,
-                      defaultPoints.rightBottom, defaultPoints.lnTopCenter, defaultPoints.lnLeftCenter,
-                      defaultPoints.lnRightCenter, defaultPoints.lnBottomCenter]
+        let points = defaultPoints.corners +
+                     [defaultPoints.lnTopCenter, defaultPoints.lnRightCenter,
+                     defaultPoints.lnBottomCenter, defaultPoints.lnLeftCenter]
         
         var first = true
         // from, current, 0
@@ -242,6 +241,8 @@ class SketchView: UIView {
    
             
             
+            var thisSidePrePts = [CGPoint](), antiSidePts = [CGPoint]()
+            let corners = defaultPoints.corners
             
             switch currentType {
             case .leftTop, .rightTop, .rightBottom,
@@ -254,22 +255,37 @@ class SketchView: UIView {
                       }
                   
                   }
-                
-            case .centerLnTop, .centerLnLeft, .centerLnRight,
-                 .centerLnBottom:
-                    
-                  for pt in defaultPoints.restCorners{
-                      let distance = abs(pt.x - current.x) + abs(pt.y - current.y)
-                      
-                      if distance < SketchConst.std.distance{
-                          ggTouch = true
-                          break
-                      }
-                
-                  }
+            
+            case .centerLnTop:
+                let pts = current.calculateTopCenter(lhsTopP: corners[0], rhsTopP: corners[1],rhsBottomP: corners[2], lhsBottomP: corners[3])
+                thisSidePrePts.append(contentsOf: [pts.0, pts.1])
+                antiSidePts.append(contentsOf: [corners[2], corners[3]])
+            case .centerLnLeft:
+                let pts = current.calculateLeftCenter(lhsTopP: corners[0], rhsTopP: corners[1],rhsBottomP: corners[2], lhsBottomP: corners[3])
+                thisSidePrePts.append(contentsOf: [pts.0, pts.1])
+                antiSidePts.append(contentsOf: [corners[1], corners[2]])
+            case .centerLnRight:
+                let pts = current.calculateRightCenter(lhsTopP: corners[0], rhsTopP: corners[1],rhsBottomP: corners[2], lhsBottomP: corners[3])
+                thisSidePrePts.append(contentsOf: [pts.0, pts.1])
+                antiSidePts.append(contentsOf: [corners[0], corners[3]])
+            case .centerLnBottom:
+                let pts = current.calculateBottomCenter(lhsTopP: corners[0], rhsTopP: corners[1],rhsBottomP: corners[2], lhsBottomP: corners[3])
+                thisSidePrePts.append(contentsOf: [pts.0, pts.1])
+                antiSidePts.append(contentsOf: [corners[0], corners[1]])
             }
-            
-            
+            if thisSidePrePts.isEmpty == false{
+                for pt in antiSidePts{
+                     let distanceA = abs(pt.x - thisSidePrePts[0].x) + abs(pt.y - thisSidePrePts[0].y)
+                     let distanceB = abs(pt.x - thisSidePrePts[1].x) + abs(pt.y - thisSidePrePts[1].y)
+                     if distanceA < SketchConst.std.distance || distanceB < SketchConst.std.distance{
+                         ggTouch = true
+                         break
+                     }
+                }
+                 
+                
+            }
+
             
             
             guard ggTouch == false else {

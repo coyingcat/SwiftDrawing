@@ -24,7 +24,7 @@ extension CGPoint{
 
         
     
-    func calculatelnRightCenter(rhsTopP rhsTop: CGPoint, lhsTopP lhsTop: CGPoint, rhsBottomP rhsBottom: CGPoint, lhsBottomP lhsBottom: CGPoint) -> ReturnRightCenter{
+    func calculateRightCenter(lhsTopP lhsTop: CGPoint, rhsTopP rhsTop: CGPoint, rhsBottomP rhsBottom: CGPoint, lhsBottomP lhsBottom: CGPoint) -> ReturnRightCenter{
         
         var result: ReturnRightCenter = (CGPoint.zero, CGPoint.zero)
         
@@ -66,7 +66,7 @@ extension CGPoint{
     
     
     
-    func calculatelnBottomCenter(rhsTopP rhsTop: CGPoint, lhsTopP lhsTop: CGPoint, rhsBottomP rhsBottom: CGPoint, lhsBottomP lhsBottom: CGPoint) -> ReturnBottomCenter{
+    func calculateBottomCenter(lhsTopP lhsTop: CGPoint, rhsTopP rhsTop: CGPoint, rhsBottomP rhsBottom: CGPoint, lhsBottomP lhsBottom: CGPoint) -> ReturnBottomCenter{
         
         var result: ReturnBottomCenter = (CGPoint.zero, CGPoint.zero)
         
@@ -119,7 +119,7 @@ extension CGPoint{
     
     
     
-    func calculatelnLeftCenter(rhsTopP rhsTop: CGPoint, lhsTopP lhsTop: CGPoint, rhsBottomP rhsBottom: CGPoint, lhsBottomP lhsBottom: CGPoint) -> ReturnLeftCenter{
+    func calculateLeftCenter(lhsTopP lhsTop: CGPoint, rhsTopP rhsTop: CGPoint,  rhsBottomP rhsBottom: CGPoint, lhsBottomP lhsBottom: CGPoint) -> ReturnLeftCenter{
         
         var result: ReturnLeftCenter = (CGPoint.zero, CGPoint.zero)
         
@@ -162,7 +162,7 @@ extension CGPoint{
     
     
     
-    func calculatelnTopCenter(rhsTopP rhsTop: CGPoint, lhsTopP lhsTop: CGPoint, rhsBottomP rhsBottom: CGPoint, lhsBottomP lhsBottom: CGPoint) -> ReturnTopCenter{
+    func calculateTopCenter(lhsTopP lhsTop: CGPoint, rhsTopP rhsTop: CGPoint, rhsBottomP rhsBottom: CGPoint, lhsBottomP lhsBottom: CGPoint) -> ReturnTopCenter{
         
         var result: ReturnTopCenter = (CGPoint.zero, CGPoint.zero)
         

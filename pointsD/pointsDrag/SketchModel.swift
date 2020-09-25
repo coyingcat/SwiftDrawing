@@ -46,7 +46,10 @@ struct SketchModel{
     
     
     
-    
+    var corners: [CGPoint]{
+        [leftTop, rightTop,
+         rightBottom, leftBottom]
+    }
     
     
     var currentState = StateKeep()
@@ -86,7 +89,7 @@ struct SketchModel{
                 let rhsBottom = currentState.rhsBottom , let lhsBottom = currentState.lhsBottom else{
                     return
             }
-            let result = newValue.calculatelnTopCenter(rhsTopP: rhsTop, lhsTopP: lhsTop, rhsBottomP: rhsBottom, lhsBottomP: lhsBottom)
+            let result = newValue.calculateTopCenter(lhsTopP: lhsTop, rhsTopP: rhsTop,  rhsBottomP: rhsBottom, lhsBottomP: lhsBottom)
             leftTop = result.lhsTop
             rightTop = result.rhsTop
         }
@@ -103,7 +106,7 @@ struct SketchModel{
                 let rhsBottom = currentState.rhsBottom , let lhsBottom = currentState.lhsBottom else{
                     return
             }
-            let result = newValue.calculatelnLeftCenter(rhsTopP: rhsTop, lhsTopP: lhsTop, rhsBottomP: rhsBottom, lhsBottomP: lhsBottom)
+            let result = newValue.calculateLeftCenter(lhsTopP: lhsTop, rhsTopP: rhsTop, rhsBottomP: rhsBottom, lhsBottomP: lhsBottom)
             leftTop = result.lhsTop
             leftBottom = result.lhsBottom
             
@@ -125,7 +128,7 @@ struct SketchModel{
                     return
             }
             
-            let result = newValue.calculatelnBottomCenter(rhsTopP: rhsTop, lhsTopP: lhsTop, rhsBottomP: rhsBottom, lhsBottomP: lhsBottom)
+            let result = newValue.calculateBottomCenter(lhsTopP: lhsTop, rhsTopP: rhsTop, rhsBottomP: rhsBottom, lhsBottomP: lhsBottom)
             leftBottom = result.lhsBottom
             rightBottom = result.rhsBottom
             
@@ -145,7 +148,7 @@ struct SketchModel{
                     return
             }
             
-            let gotIt = newValue.calculatelnRightCenter(rhsTopP: rhsTop, lhsTopP: lhsTop, rhsBottomP: rhsBottom, lhsBottomP: lhsBottom)
+            let gotIt = newValue.calculateRightCenter(lhsTopP: lhsTop, rhsTopP: rhsTop, rhsBottomP: rhsBottom, lhsBottomP: lhsBottom)
             rightTop = gotIt.rhsTop
             rightBottom = gotIt.rhsBottom
         }
