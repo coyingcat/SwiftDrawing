@@ -164,42 +164,9 @@ struct SketchModel{
                 let rhsBottom = currentState.rhsBottom , let lhsBottom = currentState.lhsBottom else{
                     return
             }
-            
-            let lhsDistance = lhsTop.y - lhsBottom.y
-            var topH = true, bottomH = true
-            
-            
-            let topDistance = rhsTop.y - lhsTop.y
-            if abs(topDistance) < SketchConst.std.limite{
-                topH = false
-            }
-            let bottomDistance = rhsBottom.y - lhsBottom.y
-            if abs(bottomDistance) < SketchConst.std.limite{
-                bottomH = false
-            }
-
-            let k = (lhsTop.x - lhsBottom.x)/lhsDistance
-                        
-            if topH{
-                let ths = (rhsTop.x - lhsTop.x)/topDistance
-                let x = (((rhsTop.y - newValue.y) * ths - rhsTop.x)*k + newValue.x * ths)/(ths - k)
-                leftTop.x = x
-                leftTop.y = (x + newValue.y * k - newValue.x)/k
-            }
-            else{
-                leftTop.x = (rhsTop.y - newValue.y) * k + newValue.x
-            }
-            
-            if bottomH{
-                let bhs = (rhsBottom.x - lhsBottom.x)/bottomDistance
-                let x = (((rhsBottom.y - newValue.y) * bhs - rhsBottom.x)*k + newValue.x * bhs)/(bhs - k)
-                leftBottom.x = x
-                leftBottom.y = (x + newValue.y * k - newValue.x)/k
-            }
-            else{
-                leftBottom.x = (rhsBottom.y - newValue.y) * k + newValue.x
-            }
-            
+            let result = newValue.calculatelnlnLeftCenter(rhsTopP: rhsTop, lhsTopP: lhsTop, rhsBottomP: rhsBottom, lhsBottomP: lhsBottom)
+            leftTop = result.lhsTop
+            leftBottom = result.lhsBottom
             
         }
     }

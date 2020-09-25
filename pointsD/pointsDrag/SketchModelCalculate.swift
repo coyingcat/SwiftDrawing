@@ -14,6 +14,9 @@ typealias ReturnRightCenter = (rhsTop: CGPoint, rhsBottom: CGPoint)
 typealias ReturnBottomCenter = (lhsBottom: CGPoint, rhsBottom: CGPoint)
 
 
+typealias ReturnLeftCenter = (lhsTop: CGPoint, lhsBottom: CGPoint)
+
+
 
 
 extension CGPoint{
@@ -109,6 +112,49 @@ extension CGPoint{
         else{
             let rhsY = y - (x - rhsBottom.x)*k
             result.rhsBottom = CGPoint(x: x, y: rhsY)
+        }
+        return result
+    }
+    
+    
+    
+    
+    func calculatelnlnLeftCenter(rhsTopP rhsTop: CGPoint, lhsTopP lhsTop: CGPoint, rhsBottomP rhsBottom: CGPoint, lhsBottomP lhsBottom: CGPoint) -> ReturnLeftCenter{
+        
+        var result: ReturnLeftCenter = (CGPoint.zero, CGPoint.zero)
+        
+        let lhsDistance = lhsTop.y - lhsBottom.y
+        var topH = true, bottomH = true
+        
+        
+        let topDistance = rhsTop.y - lhsTop.y
+        if abs(topDistance) < SketchConst.std.limite{
+            topH = false
+        }
+        let bottomDistance = rhsBottom.y - lhsBottom.y
+        if abs(bottomDistance) < SketchConst.std.limite{
+            bottomH = false
+        }
+
+        let k = (lhsTop.x - lhsBottom.x)/lhsDistance
+                    
+        if topH{
+            let ths = (rhsTop.x - lhsTop.x)/topDistance
+            let responseX = (((rhsTop.y - y) * ths - rhsTop.x)*k + x * ths)/(ths - k)
+            result.lhsTop = CGPoint(x: responseX, y: (x + y * k - x)/k)
+       
+        }
+        else{
+            result.lhsTop = CGPoint(x: (rhsTop.y - y) * k + x, y: y)
+        }
+        
+        if bottomH{
+            let bhs = (rhsBottom.x - lhsBottom.x)/bottomDistance
+            let retX = (((rhsBottom.y - y) * bhs - rhsBottom.x)*k + x * bhs)/(bhs - k)
+            result.lhsBottom = CGPoint(x: retX, y: (x + y * k - x)/k)
+        }
+        else{
+            result.lhsBottom = CGPoint(x: (rhsBottom.y - y) * k + x, y: y)
         }
         return result
     }
