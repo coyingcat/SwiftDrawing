@@ -86,70 +86,9 @@ struct SketchModel{
                 let rhsBottom = currentState.rhsBottom , let lhsBottom = currentState.lhsBottom else{
                     return
             }
-            
-            
-            let topDistance = rhsTop.x - lhsTop.x
-            var lhsV = true, rhsV = true
-            
-            
-            
-            let lhsDistance = lhsTop.x - lhsBottom.x
-            if abs(lhsDistance) < SketchConst.std.limite{
-                lhsV = false
-            }
-            let rhsDistance = rhsTop.x - rhsBottom.x
-            if abs(rhsDistance) < SketchConst.std.limite{
-                rhsV = false
-            }
-            
-            
-            
-            let k = (rhsTop.y - lhsTop.y)/topDistance
-            
-            //  (a-y)/w-(c-y)/k=b-d
-            
-            // 求解 y
-            
-            //  -(((d-b)*k-c)*w+a*k)/(w-k)
-            
-            //  (((b - d)*k + c)*w - a*k)/(w - k)
-            
-            //  (((d-b)*k-c)*w+a*k)/(k - w)
-            
-            ////
-            
-            ///
-            
-            //  (a-y)/w=b-x
-            
-            //  求解 x
-            
-            //  x = (y+b*w-a)/w
-            
-            
-            if lhsV{
-                let w = (lhsTop.y - lhsBottom.y)/lhsDistance
-                let y = (((lhsBottom.x - newValue.x) * k + newValue.y) * w - lhsBottom.y * k)/(w - k)
-                leftTop.y = y
-                leftTop.x = (y + lhsBottom.x * w - lhsBottom.y)/w
-            }
-            else{
-                let y = (lhsBottom.x - newValue.x) * k + newValue.y
-                leftTop.y = y
-            }
-            
-            if rhsV{
-                let rhs = (rhsTop.y - rhsBottom.y)/rhsDistance
-                let rhsY = (k * rhsBottom.y + ((newValue.x - rhsBottom.x)*k - newValue.y) * rhs)/(k - rhs)
-                rightTop.y = rhsY
-                rightTop.x = (rhsY + rhsBottom.x * rhs - rhsBottom.y)/rhs
-            }
-            else{
-                let rhsY = newValue.y - (newValue.x - rhsBottom.x)*k
-                rightTop.y = rhsY
-            }
-            
-            
+            let result = newValue.calculatelnTopCenter(rhsTopP: rhsTop, lhsTopP: lhsTop, rhsBottomP: rhsBottom, lhsBottomP: lhsBottom)
+            leftTop = result.lhsTop
+            rightTop = result.rhsTop
         }
     }
 
@@ -164,7 +103,7 @@ struct SketchModel{
                 let rhsBottom = currentState.rhsBottom , let lhsBottom = currentState.lhsBottom else{
                     return
             }
-            let result = newValue.calculatelnlnLeftCenter(rhsTopP: rhsTop, lhsTopP: lhsTop, rhsBottomP: rhsBottom, lhsBottomP: lhsBottom)
+            let result = newValue.calculatelnLeftCenter(rhsTopP: rhsTop, lhsTopP: lhsTop, rhsBottomP: rhsBottom, lhsBottomP: lhsBottom)
             leftTop = result.lhsTop
             leftBottom = result.lhsBottom
             
