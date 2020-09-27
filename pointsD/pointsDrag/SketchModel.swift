@@ -104,6 +104,45 @@ struct SketchModel{
         }
     }
 
+    
+    var lnRightCenter: CGPoint{
+         get{
+             centerPoint(from: rightTop, to: rightBottom)
+         }
+         set{
+             doingParallel = true
+             guard let rhsTop = currentState.rhsTop, let lhsTop = currentState.lhsTop,
+                 let rhsBottom = currentState.rhsBottom , let lhsBottom = currentState.lhsBottom else{
+                     return
+             }
+             
+             let gotIt = newValue.calculateRightCenter(lhsTopP: lhsTop, rhsTopP: rhsTop, rhsBottomP: rhsBottom, lhsBottomP: lhsBottom)
+             rightTop = gotIt.rhsTop
+             rightBottom = gotIt.rhsBottom
+         }
+     }
+
+    
+    var lnBottomCenter: CGPoint{
+           get{
+               centerPoint(from: leftBottom, to: rightBottom)
+           }
+           set{
+               
+               doingParallel = true
+               
+               guard let rhsTop = currentState.rhsTop, let lhsTop = currentState.lhsTop,
+                   let rhsBottom = currentState.rhsBottom , let lhsBottom = currentState.lhsBottom else{
+                       return
+               }
+               
+               let result = newValue.calculateBottomCenter(lhsTopP: lhsTop, rhsTopP: rhsTop, rhsBottomP: rhsBottom, lhsBottomP: lhsBottom)
+               leftBottom = result.lhsBottom
+               rightBottom = result.rhsBottom
+               
+           }
+       }
+       
   
     var lnLeftCenter: CGPoint{
         get{
@@ -122,49 +161,6 @@ struct SketchModel{
         }
     }
 
-    
-    
-    var lnBottomCenter: CGPoint{
-        get{
-            centerPoint(from: leftBottom, to: rightBottom)
-        }
-        set{
-            
-            doingParallel = true
-            
-            guard let rhsTop = currentState.rhsTop, let lhsTop = currentState.lhsTop,
-                let rhsBottom = currentState.rhsBottom , let lhsBottom = currentState.lhsBottom else{
-                    return
-            }
-            
-            let result = newValue.calculateBottomCenter(lhsTopP: lhsTop, rhsTopP: rhsTop, rhsBottomP: rhsBottom, lhsBottomP: lhsBottom)
-            leftBottom = result.lhsBottom
-            rightBottom = result.rhsBottom
-            
-        }
-    }
-    
-    
-    
-    var lnRightCenter: CGPoint{
-        get{
-            centerPoint(from: rightTop, to: rightBottom)
-        }
-        set{
-            doingParallel = true
-            guard let rhsTop = currentState.rhsTop, let lhsTop = currentState.lhsTop,
-                let rhsBottom = currentState.rhsBottom , let lhsBottom = currentState.lhsBottom else{
-                    return
-            }
-            
-            let gotIt = newValue.calculateRightCenter(lhsTopP: lhsTop, rhsTopP: rhsTop, rhsBottomP: rhsBottom, lhsBottomP: lhsBottom)
-            rightTop = gotIt.rhsTop
-            rightBottom = gotIt.rhsBottom
-        }
-    }
-
-
-    
     
     private
     func centerPoint(from fromPoint: CGPoint, to toPoint: CGPoint) -> CGPoint{
