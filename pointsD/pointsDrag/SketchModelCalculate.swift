@@ -213,7 +213,7 @@ extension CGPoint{
         if topH{
             let ths = (rhsTop.x - lhsTop.x)/topDistance
             let responseX = (((rhsTop.y - y) * ths - rhsTop.x)*k + x * ths)/(ths - k)
-            result.lhsTop = CGPoint(x: responseX, y: (x + y * k - x)/k)
+            result.lhsTop = CGPoint(x: responseX, y: (responseX + y * k - x)/k)
        
         }
         else{
