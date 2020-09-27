@@ -303,20 +303,28 @@ class SketchView: UIView {
             
             switch currentType {
             case .leftTop:
+                print(1)
                 defaultPoints.leftTop = current
             case .rightTop:
+                print(2)
                 defaultPoints.rightTop = current
             case .leftBottom:
+                print(3)
                 defaultPoints.leftBottom = current
             case .rightBottom:
+                print(4)
                 defaultPoints.rightBottom = current
             case .centerLnTop:
+                print(5)
                 defaultPoints.lnTopCenter = current
             case .centerLnLeft:
+                print(6)
                 defaultPoints.lnLeftCenter = current
             case .centerLnRight:
+                print(7)
                 defaultPoints.lnRightCenter = current
             case .centerLnBottom:
+                print(8)
                 defaultPoints.lnBottomCenter = current
             }
           
