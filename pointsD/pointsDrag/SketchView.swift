@@ -19,6 +19,12 @@ enum SketchPointOption: Int{
 
 
 
+// 计时器分配资源，大法好
+
+
+// 哪里能让用户，触发到那里，就去计算
+
+
 class SketchView: UIView {
 
     var currentControlPointType: SketchPointOption? = nil{
@@ -281,6 +287,7 @@ class SketchView: UIView {
                 }
             }
             if thisSidePrePts.isEmpty == false{
+                print("A")
                 for pt in antiSidePts{
                      let distanceA = abs(pt.x - thisSidePrePts[0].x) + abs(pt.y - thisSidePrePts[0].y)
                      let distanceB = abs(pt.x - thisSidePrePts[1].x) + abs(pt.y - thisSidePrePts[1].y)
