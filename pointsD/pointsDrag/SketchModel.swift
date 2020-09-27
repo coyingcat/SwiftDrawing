@@ -29,7 +29,7 @@ struct SketchConst{
     
     let limite: CGFloat = 6
     
-    let radius: CGFloat = 30
+    let radius: CGFloat = 20
     let distance: CGFloat
     
     init() {

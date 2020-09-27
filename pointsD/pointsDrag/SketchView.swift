@@ -185,7 +185,7 @@ class SketchView: UIView {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         super.touchesBegan(touches, with: event)
-     
+        defaultPoints.doingParallel = false
         ggTouch = false
 
         guard let touch = touches.first else{
@@ -196,7 +196,7 @@ class SketchView: UIView {
         let currentPoint = touch.location(in: self)
         
         // 判定选中的最大距离
-        
+      //  let points = defaultPoints.corners
         let points = defaultPoints.corners +
                      [defaultPoints.lnTopCenter, defaultPoints.lnRightCenter,
                      defaultPoints.lnBottomCenter, defaultPoints.lnLeftCenter]
@@ -280,18 +280,18 @@ class SketchView: UIView {
                     antiSidePts.append(contentsOf: [corners[0], corners[1]])
                 }
             }
-            if thisSidePrePts.isEmpty == false{
-                for pt in antiSidePts{
-                     let distanceA = abs(pt.x - thisSidePrePts[0].x) + abs(pt.y - thisSidePrePts[0].y)
-                     let distanceB = abs(pt.x - thisSidePrePts[1].x) + abs(pt.y - thisSidePrePts[1].y)
-                     if distanceA < SketchConst.std.distance || distanceB < SketchConst.std.distance{
-                         ggTouch = true
-                         break
-                     }
-                }
-                 
-                
-            }
+//            if thisSidePrePts.isEmpty == false{
+//                for pt in antiSidePts{
+//                     let distanceA = abs(pt.x - thisSidePrePts[0].x) + abs(pt.y - thisSidePrePts[0].y)
+//                     let distanceB = abs(pt.x - thisSidePrePts[1].x) + abs(pt.y - thisSidePrePts[1].y)
+//                     if distanceA < SketchConst.std.distance || distanceB < SketchConst.std.distance{
+//                         ggTouch = true
+//                         break
+//                     }
+//                }
+//                 
+//                
+//            }
 
             
             
