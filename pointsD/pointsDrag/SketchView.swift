@@ -280,18 +280,18 @@ class SketchView: UIView {
                     antiSidePts.append(contentsOf: [corners[0], corners[1]])
                 }
             }
-//            if thisSidePrePts.isEmpty == false{
-//                for pt in antiSidePts{
-//                     let distanceA = abs(pt.x - thisSidePrePts[0].x) + abs(pt.y - thisSidePrePts[0].y)
-//                     let distanceB = abs(pt.x - thisSidePrePts[1].x) + abs(pt.y - thisSidePrePts[1].y)
-//                     if distanceA < SketchConst.std.distance || distanceB < SketchConst.std.distance{
-//                         ggTouch = true
-//                         break
-//                     }
-//                }
-//                 
-//                
-//            }
+            if thisSidePrePts.isEmpty == false{
+                for pt in antiSidePts{
+                     let distanceA = abs(pt.x - thisSidePrePts[0].x) + abs(pt.y - thisSidePrePts[0].y)
+                     let distanceB = abs(pt.x - thisSidePrePts[1].x) + abs(pt.y - thisSidePrePts[1].y)
+                     if distanceA < SketchConst.std.distance || distanceB < SketchConst.std.distance{
+                         ggTouch = true
+                         break
+                     }
+                }
+                 
+                
+            }
 
             
             
