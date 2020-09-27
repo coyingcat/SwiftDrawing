@@ -118,7 +118,7 @@ extension CGPoint{
         if topH{
             let ths = (rhsTop.x - lhsTop.x)/topDistance
             let resX = (((lhsTop.y - y) * ths - lhsTop.x)*k + x * ths)/(ths - k)
-            result.rhsTop = CGPoint(x: resX, y: (resX + y * k - resX)/k)
+            result.rhsTop = CGPoint(x: resX, y: (resX + y * k - x)/k)
         }
         else{
             result.rhsTop = CGPoint(x:  (lhsTop.y - y) * k + x, y: y)
@@ -127,7 +127,7 @@ extension CGPoint{
         if bottomH{
             let bhs = (rhsBottom.x - lhsBottom.x)/bottomDistance
             let resultX = (((rhsBottom.y - y) * bhs - rhsBottom.x)*k + x * bhs)/(bhs - k)
-            result.rhsBottom = CGPoint(x: resultX, y: (resultX + y * k - resultX)/k)
+            result.rhsBottom = CGPoint(x: resultX, y: (resultX + y * k - x)/k)
         }
         else{
             result.rhsBottom = CGPoint(x: (rhsBottom.y - y) * k + x, y: y)
@@ -159,7 +159,7 @@ extension CGPoint{
         if lhsV{
             let w = (lhsTop.y - lhsBottom.y)/lhsDistance
             let retY = (((lhsBottom.x - x) * k + y) * w - lhsBottom.y * k)/(w - k)
-            result.lhsBottom = CGPoint(x: (retY + x * k - retY)/k, y: retY)
+            result.lhsBottom = CGPoint(x: (retY + x * k - y)/k, y: retY)
         }
         else{
             let resultY = (lhsBottom.x - x) * k + y
@@ -223,7 +223,7 @@ extension CGPoint{
         if bottomH{
             let bhs = (rhsBottom.x - lhsBottom.x)/bottomDistance
             let retX = (((rhsBottom.y - y) * bhs - rhsBottom.x)*k + x * bhs)/(bhs - k)
-            result.lhsBottom = CGPoint(x: retX, y: (x + y * k - x)/k)
+            result.lhsBottom = CGPoint(x: retX, y: (retX + y * k - x)/k)
         }
         else{
             result.lhsBottom = CGPoint(x: (rhsBottom.y - y) * k + x, y: y)
