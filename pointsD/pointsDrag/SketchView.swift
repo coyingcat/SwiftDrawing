@@ -169,12 +169,13 @@ class SketchView: UIView {
                 }
             }
             if thisSidePrePts.isEmpty == false{
-                print("A")
+                
                 for pt in antiSidePts{
                      let distanceA = abs(pt.x - thisSidePrePts[0].x) + abs(pt.y - thisSidePrePts[0].y)
                      let distanceB = abs(pt.x - thisSidePrePts[1].x) + abs(pt.y - thisSidePrePts[1].y)
                      if distanceA < SketchConst.std.distance || distanceB < SketchConst.std.distance{
                          ggTouch = true
+                         print("-----  A   -  \(ggTouch)")
                          break
                      }
                 }
@@ -182,9 +183,10 @@ class SketchView: UIView {
                 
             }
 
-            if prePoints.count == 4{
+            if ggTouch == false, prePoints.count == 4{
                 let hehe = prePoints[0].gimpTransformPolygon(isConvex: prePoints[1], two: prePoints[2], three: prePoints[3])
-                ggTouch = hehe
+                ggTouch = !hehe
+                print("------  \(ggTouch)")
             }
             
             
