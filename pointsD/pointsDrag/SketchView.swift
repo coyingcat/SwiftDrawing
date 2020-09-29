@@ -26,6 +26,11 @@ enum SketchPointOption: Int{
 
 
 class SketchView: UIView {
+    
+    var currentPoint: CGPoint?
+    
+    var sheduler: Timer?
+    
 
     var currentControlPointType: SketchPointOption? = nil{
         didSet{
@@ -97,12 +102,119 @@ class SketchView: UIView {
         
         layer.borderColor = UIColor.green.cgColor
         layer.borderWidth = 2
+        
+        sheduler = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(doTask), userInfo: nil, repeats: true)
     }
+    
+    
+    
     
     
     
     required init?(coder: NSCoder) {
         fatalError()
+    }
+    
+    
+    @objc
+    func doTask(){
+        if let currentType = currentControlPointType, let current = currentPoint{
+            guard bounds.contains(current) else{
+                return
+            }
+            
+            var thisSidePrePts = [CGPoint](), antiSidePts = [CGPoint]()
+            let corners = defaultPoints.oldCorners
+            
+            switch currentType {
+            case .leftTop, .rightTop, .rightBottom,
+                .leftBottom:
+                  for pt in defaultPoints.restCorners{
+                      let distance = abs(pt.x - current.x) + abs(pt.y - current.y)
+                      if distance < SketchConst.std.distance{
+                          ggTouch = true
+                          break
+                      }
+                  
+                  }
+            
+            case .centerLnTop:
+                if corners.count == 4 {
+                    let pts = current.calculateTopCenter(lhsTopP: corners[0], rhsTopP: corners[1],rhsBottomP: corners[2], lhsBottomP: corners[3])
+                    thisSidePrePts.append(contentsOf: [pts.0, pts.1])
+                    antiSidePts.append(contentsOf: [corners[2], corners[3]])
+                }
+            case .centerLnLeft:
+                if corners.count == 4 {
+                    let pts = current.calculateLeftCenter(lhsTopP: corners[0], rhsTopP: corners[1],rhsBottomP: corners[2], lhsBottomP: corners[3])
+                    thisSidePrePts.append(contentsOf: [pts.0, pts.1])
+                    antiSidePts.append(contentsOf: [corners[1], corners[2]])
+                }
+            case .centerLnRight:
+                if corners.count == 4 {
+                    let pts = current.calculateRightCenter(lhsTopP: corners[0], rhsTopP: corners[1],rhsBottomP: corners[2], lhsBottomP: corners[3])
+                    thisSidePrePts.append(contentsOf: [pts.0, pts.1])
+                    antiSidePts.append(contentsOf: [corners[0], corners[3]])
+                }
+            case .centerLnBottom:
+                if corners.count == 4 {
+                    let pts = current.calculateBottomCenter(lhsTopP: corners[0], rhsTopP: corners[1],rhsBottomP: corners[2], lhsBottomP: corners[3])
+                    thisSidePrePts.append(contentsOf: [pts.0, pts.1])
+                    antiSidePts.append(contentsOf: [corners[0], corners[1]])
+                }
+            }
+            if thisSidePrePts.isEmpty == false{
+                print("A")
+                for pt in antiSidePts{
+                     let distanceA = abs(pt.x - thisSidePrePts[0].x) + abs(pt.y - thisSidePrePts[0].y)
+                     let distanceB = abs(pt.x - thisSidePrePts[1].x) + abs(pt.y - thisSidePrePts[1].y)
+                     if distanceA < SketchConst.std.distance || distanceB < SketchConst.std.distance{
+                         ggTouch = true
+                         break
+                     }
+                }
+                 
+                
+            }
+
+            
+            
+            guard ggTouch == false else {
+                
+                return
+            }
+            
+            
+            switch currentType {
+            case .leftTop:
+                print(1)
+                defaultPoints.leftTop = current
+            case .rightTop:
+                print(2)
+                defaultPoints.rightTop = current
+            case .leftBottom:
+                print(3)
+                defaultPoints.leftBottom = current
+            case .rightBottom:
+                print(4)
+                defaultPoints.rightBottom = current
+            case .centerLnTop:
+                print(5)
+                defaultPoints.lnTopCenter = current
+            case .centerLnLeft:
+                print(6)
+                defaultPoints.lnLeftCenter = current
+            case .centerLnRight:
+                print(7)
+                defaultPoints.lnRightCenter = current
+            case .centerLnBottom:
+                print(8)
+                defaultPoints.lnBottomCenter = current
+            }
+            reloadData()
+        }
+        
+        
     }
     
     
@@ -238,105 +350,9 @@ class SketchView: UIView {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesMoved(touches, with: event)
-        if let currentType = currentControlPointType, let touch = touches.first{
-            let current = touch.location(in: self)
-            guard bounds.contains(current) else{
-                return
-            }
-   
-            
-            
-            var thisSidePrePts = [CGPoint](), antiSidePts = [CGPoint]()
-            let corners = defaultPoints.oldCorners
-            
-            switch currentType {
-            case .leftTop, .rightTop, .rightBottom,
-                .leftBottom:
-                  for pt in defaultPoints.restCorners{
-                      let distance = abs(pt.x - current.x) + abs(pt.y - current.y)
-                      if distance < SketchConst.std.distance{
-                          ggTouch = true
-                          break
-                      }
-                  
-                  }
-            
-            case .centerLnTop:
-                if corners.count == 4 {
-                    let pts = current.calculateTopCenter(lhsTopP: corners[0], rhsTopP: corners[1],rhsBottomP: corners[2], lhsBottomP: corners[3])
-                    thisSidePrePts.append(contentsOf: [pts.0, pts.1])
-                    antiSidePts.append(contentsOf: [corners[2], corners[3]])
-                }
-            case .centerLnLeft:
-                if corners.count == 4 {
-                    let pts = current.calculateLeftCenter(lhsTopP: corners[0], rhsTopP: corners[1],rhsBottomP: corners[2], lhsBottomP: corners[3])
-                    thisSidePrePts.append(contentsOf: [pts.0, pts.1])
-                    antiSidePts.append(contentsOf: [corners[1], corners[2]])
-                }
-            case .centerLnRight:
-                if corners.count == 4 {
-                    let pts = current.calculateRightCenter(lhsTopP: corners[0], rhsTopP: corners[1],rhsBottomP: corners[2], lhsBottomP: corners[3])
-                    thisSidePrePts.append(contentsOf: [pts.0, pts.1])
-                    antiSidePts.append(contentsOf: [corners[0], corners[3]])
-                }
-            case .centerLnBottom:
-                if corners.count == 4 {
-                    let pts = current.calculateBottomCenter(lhsTopP: corners[0], rhsTopP: corners[1],rhsBottomP: corners[2], lhsBottomP: corners[3])
-                    thisSidePrePts.append(contentsOf: [pts.0, pts.1])
-                    antiSidePts.append(contentsOf: [corners[0], corners[1]])
-                }
-            }
-            if thisSidePrePts.isEmpty == false{
-                print("A")
-                for pt in antiSidePts{
-                     let distanceA = abs(pt.x - thisSidePrePts[0].x) + abs(pt.y - thisSidePrePts[0].y)
-                     let distanceB = abs(pt.x - thisSidePrePts[1].x) + abs(pt.y - thisSidePrePts[1].y)
-                     if distanceA < SketchConst.std.distance || distanceB < SketchConst.std.distance{
-                         ggTouch = true
-                         break
-                     }
-                }
-                 
-                
-            }
 
-            
-            
-            guard ggTouch == false else {
-                
-                return
-            }
-            
-            
-            switch currentType {
-            case .leftTop:
-                print(1)
-                defaultPoints.leftTop = current
-            case .rightTop:
-                print(2)
-                defaultPoints.rightTop = current
-            case .leftBottom:
-                print(3)
-                defaultPoints.leftBottom = current
-            case .rightBottom:
-                print(4)
-                defaultPoints.rightBottom = current
-            case .centerLnTop:
-                print(5)
-                defaultPoints.lnTopCenter = current
-            case .centerLnLeft:
-                print(6)
-                defaultPoints.lnLeftCenter = current
-            case .centerLnRight:
-                print(7)
-                defaultPoints.lnRightCenter = current
-            case .centerLnBottom:
-                print(8)
-                defaultPoints.lnBottomCenter = current
-            }
-          
-            reloadData()
-        }
+        currentPoint = touches.first?.location(in: self)
+        
         
     }
 
